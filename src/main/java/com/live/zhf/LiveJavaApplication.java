@@ -1,5 +1,6 @@
 package com.live.zhf;
 
+import org.springframework.boot.Banner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -7,7 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class LiveJavaApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(LiveJavaApplication.class, args);
+        SpringApplication application = new SpringApplication(LiveJavaApplication.class);
+        // 禁用Banner
+        application.setBannerMode(Banner.Mode.OFF);
+        application.run(args);
     }
 
 }

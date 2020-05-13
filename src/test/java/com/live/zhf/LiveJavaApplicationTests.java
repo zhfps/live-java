@@ -2,6 +2,7 @@ package com.live.zhf;
 
 import com.google.gson.Gson;
 import com.live.zhf.learn.AnnoationTest;
+import com.live.zhf.learn.IoTest;
 import com.live.zhf.learn.TestUtil;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -63,6 +64,11 @@ class LiveJavaApplicationTests {
 //        } catch (ClassNotFoundException e) {
 //            e.printStackTrace();
 //        }
+    }
+    // 测试IO
+    @Test
+    void ioTest(){
+        IoTest.readerFile("D:/tcl/data.txt");
     }
 
 }
