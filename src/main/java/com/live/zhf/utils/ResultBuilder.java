@@ -20,6 +20,13 @@ public class ResultBuilder {
     }
 
     //失败，返回失败信息
+    public static <T> Result<T> error(T t, ResultCode code){
+        Result<T> result = new Result<T>();
+        result.setCode(code.getCode());
+        result.setData(t);
+        result.setMsg(code.getMsg());
+        return result;
+    }  //失败，返回失败信息
     public static <T> Result<T> error(ResultCode code){
         Result<T> result = new Result<T>();
         result.setCode(code.getCode());

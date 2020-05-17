@@ -4,6 +4,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.live.zhf.common.entity.SysUser;
 import com.live.zhf.common.service.SysUserService;
+import com.live.zhf.config.JwtConfig;
+import com.live.zhf.exception.SysException;
 import com.live.zhf.utils.Result;
 import com.live.zhf.utils.ResultBuilder;
 import com.live.zhf.utils.ResultCode;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.security.SignatureException;
 import java.util.List;
 
 /**
@@ -30,6 +33,9 @@ public class SysUserController {
     private SysUserService sysUserService;
     @Resource
     private ResultBuilder resultBuilder;
+
+    @Resource
+    private JwtConfig jwtConfig;
     /**
      * 通过主键查询单条数据
      *
@@ -42,7 +48,26 @@ public class SysUserController {
         Result<SysUser> result = this.resultBuilder.success(user, ResultCode.SUCCESS);
         return result;
     }
+    @PostMapping("login")
+    public Result<String> getUserById(String userName,String passwrod ) {
+        String token = jwtConfig.createToken(userName);
+        Result<String> result = this.resultBuilder.success(token, ResultCode.SUCCESS);
+        return result;
+    }
+    @GetMapping(value = "getTokenSubject")
+    public Result<String> getTokenSubject() {
+        Result<String> result;
+        String token ="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU4OTcyMjc2NCwiZXhwIjoxNTg5NzI2MzY0fQ.crjQlJOraGKMSbt0dfdA8zccmUjoSmYJVpHRCKRMhwwjsNXXRX7AOtkvQIpj9-CsUFAmbRGCi9ae9Jm7ipIXqw";
+        try {
+            String userName = jwtConfig.getSubject(token);
+            result = this.resultBuilder.success(userName, ResultCode.SUCCESS);
 
+        } catch (SysException e) {
+            result = this.resultBuilder.error(e.getMessage(), ResultCode.PERMISSION_TOKEN_ERROE);
+        }
+        return result;
+
+    }
     /**
      * 分页查询
      * @param currentPage

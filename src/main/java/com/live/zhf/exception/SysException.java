@@ -1,0 +1,11 @@
+package com.live.zhf.exception;
+
+public class SysException extends Exception {
+    public SysException(String msg, Throwable t) {
+        super(msg, t);
+    }
+
+    public SysException(String msg) {
+        super(msg);
+    }
+}
