@@ -39,20 +39,20 @@ public class JwtConfig {
      * @param token
      * @return
      */
-    public Claims getTokenClaim (String token) throws SysException {
+    public Claims getTokenClaim (String token) throws ExpiredJwtException,UnsupportedJwtException,MalformedJwtException,SignatureException,IllegalArgumentException,SysException  {
         try {
             Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
             return claims;
         }catch (ExpiredJwtException e){
-            throw new SysException(e.getMessage());
+            throw new ExpiredJwtException(null, null, e.getMessage());
         }catch (UnsupportedJwtException e){
-            throw new SysException(e.getMessage());
+            throw new UnsupportedJwtException(e.getMessage());
         }catch (MalformedJwtException e){
-            throw new SysException(e.getMessage());
+            throw new MalformedJwtException(e.getMessage());
         }catch (SignatureException e){
-           throw new SysException(e.getMessage());
+           throw new SignatureException(e.getMessage());
         }catch (IllegalArgumentException e){
-            throw new SysException(e.getMessage());
+            throw new IllegalArgumentException(e.getMessage());
         }catch (Exception e){
             throw new SysException(e.getMessage());
         }
@@ -71,20 +71,20 @@ public class JwtConfig {
      * @param token
      * @return
      */
-    public Date getExpirationDateFromToken(String token) throws SysException {
+    public Date getExpirationDateFromToken(String token) throws ExpiredJwtException,UnsupportedJwtException,MalformedJwtException,SignatureException,IllegalArgumentException,SysException  {
         return getTokenClaim(token).getExpiration();
     }
     /**
      * 获取用户名从token中
      */
-    public String getSubject(String token) throws SysException {
+    public String getSubject(String token) throws ExpiredJwtException,UnsupportedJwtException,MalformedJwtException,SignatureException,IllegalArgumentException,SysException  {
             return getTokenClaim(token).getSubject();
     }
 
     /**
      * 获取jwt发布时间
      */
-    public Date getIssuedAtDateFromToken(String token) throws SysException {
+    public Date getIssuedAtDateFromToken(String token) throws ExpiredJwtException,UnsupportedJwtException,MalformedJwtException,SignatureException,IllegalArgumentException,SysException  {
         return getTokenClaim(token).getIssuedAt();
     }
 

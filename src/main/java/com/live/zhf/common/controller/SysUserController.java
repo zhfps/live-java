@@ -55,17 +55,17 @@ public class SysUserController {
         return result;
     }
     @GetMapping(value = "getTokenSubject")
-    public Result<String> getTokenSubject() {
+    public Result<String> getTokenSubject() throws SysException {
         Result<String> result;
         String token ="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU4OTcyMjc2NCwiZXhwIjoxNTg5NzI2MzY0fQ.crjQlJOraGKMSbt0dfdA8zccmUjoSmYJVpHRCKRMhwwjsNXXRX7AOtkvQIpj9-CsUFAmbRGCi9ae9Jm7ipIXqw";
         try {
-            String userName = jwtConfig.getSubject(token);
-            result = this.resultBuilder.success(userName, ResultCode.SUCCESS);
-
+             String userName = jwtConfig.getSubject(token);
+             result = this.resultBuilder.success(userName, ResultCode.SUCCESS);
+             return result;
         } catch (SysException e) {
-            result = this.resultBuilder.error(e.getMessage(), ResultCode.PERMISSION_TOKEN_ERROE);
+            throw new SysException(e.getMessage());
+
         }
-        return result;
 
     }
     /**

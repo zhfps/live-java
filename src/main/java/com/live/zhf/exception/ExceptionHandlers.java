@@ -19,7 +19,7 @@ public class ExceptionHandlers {
     @ResponseBody
     public Result<String> handlerSignatureException(SignatureException e){
         log.error(e.getMessage());
-        Result<String> result= ResultBuilder.error(ResultCode.SUCCESS);
+        Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.PERMISSION_TOKEN_ERROE);
         return result;
     }
     @ExceptionHandler(value = { Exception.class })
@@ -27,7 +27,7 @@ public class ExceptionHandlers {
     public Result<String> handlerException(Exception e){
         System.out.println(e.getMessage());
         log.error(e.getMessage());
-        Result<String> result= ResultBuilder.error(ResultCode.SUCCESS);
+        Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.PERMISSION_TOKEN_ERROE);
         return result;
     }
     @ExceptionHandler(value = { AuthenticationException.class })
@@ -35,15 +35,14 @@ public class ExceptionHandlers {
     public Result<String> handlerAuthorizationException(AuthenticationException e){
         System.out.println(e.getMessage());
         log.error(e.getMessage());
-        Result<String> result= ResultBuilder.error(ResultCode.SUCCESS);
+        Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.PERMISSION_TOKEN_ERROE);
         return result;
     }
     @ExceptionHandler(value = { SysException.class })
     @ResponseBody
     public Result<String> handlerSysException(SysException e){
-        System.out.println(e.getMessage());
         log.error(e.getMessage());
-        Result<String> result= ResultBuilder.error(ResultCode.SUCCESS);
+        Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.PERMISSION_TOKEN_ERROE);
         return result;
     }
 }
