@@ -1,5 +1,7 @@
 package com.live.zhf.common.entity;
 
+import io.swagger.annotations.ApiModel;
+
 import java.util.Date;
 import java.io.Serializable;
 

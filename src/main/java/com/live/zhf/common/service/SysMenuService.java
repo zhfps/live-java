@@ -1,7 +1,14 @@
 package com.live.zhf.common.service;
 
+import com.github.pagehelper.PageInfo;
 import com.live.zhf.common.entity.Menu;
+import com.live.zhf.common.entity.Select;
 import com.live.zhf.common.entity.SysMenu;
+import com.live.zhf.exception.DeleteException;
+import com.live.zhf.exception.InsertException;
+import com.live.zhf.exception.UpdateException;
+import com.live.zhf.utils.Result;
+
 import java.util.List;
 
 /**
@@ -18,30 +25,30 @@ public interface SysMenuService {
      * @param id 主键
      * @return 实例对象
      */
-    SysMenu queryById(Integer id);
-
-    /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
-     */
-    List<SysMenu> queryAllByLimit(int offset, int limit);
+    Result<SysMenu> queryById(Integer id);
 
     /**
      * 查询全部
      * @return
      */
-    List<Menu> queryAll();
+    Result<PageInfo> queryPage(Integer currentPage, Integer pageSize);
 
+    /**
+     * 查询全部
+     * @return
+     */
+    Result<List<Menu>> queryAll(String name, String status);
+    /**
+     * 前端菜单目录下拉框
+     */
+    Result<List<Select<Integer,String>>> getSelect();
     /**
      * 新增数据
      *
      * @param sysMenu 实例对象
      * @return 实例对象
      */
-    SysMenu insert(SysMenu sysMenu);
+    Result<SysMenu> insert(SysMenu sysMenu) throws InsertException;
 
     /**
      * 修改数据
@@ -49,7 +56,7 @@ public interface SysMenuService {
      * @param sysMenu 实例对象
      * @return 实例对象
      */
-    SysMenu update(SysMenu sysMenu);
+    Result<SysMenu> update(SysMenu sysMenu) throws UpdateException;
 
     /**
      * 通过主键删除数据
@@ -57,6 +64,6 @@ public interface SysMenuService {
      * @param id 主键
      * @return 是否成功
      */
-    boolean deleteById(Integer id);
+    Result<Boolean> deleteById(Integer id) throws DeleteException;
 
 }

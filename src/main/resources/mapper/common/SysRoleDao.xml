@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.live.zhf.common.dao.SysRoleDao">
+
+    <resultMap type="com.live.zhf.common.entity.SysRole" id="SysRoleMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SysRoleMap">
+        select
+          id, name, description, createTime, updateTime
+        from yunxi.sys_role
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SysRoleMap">
+        select
+          id, name, description, createTime, updateTime
+        from yunxi.sys_role
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SysRoleMap">
+        select
+          id, name, description, createTime, updateTime
+        from yunxi.sys_role
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="createtime != null">
+                and createTime = #{createtime}
+            </if>
+            <if test="updatetime != null">
+                and updateTime = #{updatetime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into yunxi.sys_role(name, description, createTime, updateTime)
+        values (#{name}, #{description}, #{createtime}, #{updatetime})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update yunxi.sys_role
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="createtime != null">
+                createTime = #{createtime},
+            </if>
+            <if test="updatetime != null">
+                updateTime = #{updatetime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from yunxi.sys_role where id = #{id}
+    </delete>
+
+</mapper>

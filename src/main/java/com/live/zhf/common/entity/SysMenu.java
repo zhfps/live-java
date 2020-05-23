@@ -25,6 +25,13 @@ public class SysMenu implements Serializable {
     
     private String color;
 
+    private String status;
+
+    private String  directory;
+
+    private String  permission;
+
+    private int sort;
 
     public Integer getId() {
         return id;
@@ -82,4 +89,35 @@ public class SysMenu implements Serializable {
         this.color = color;
     }
 
+    public String getDirectory() {
+        return directory;
+    }
+
+    public void setDirectory(String directory) {
+        this.directory = directory;
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getSort() {
+        return sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
+    }
 }

@@ -22,20 +22,19 @@ public interface SysMenuDao {
      */
     SysMenu queryById(Integer id);
 
-    /**
-     * 查询指定行数据
-     *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
-     */
-    List<SysMenu> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
-
 
     /**
      * 查询
      */
-    List<SysMenu> queryAll();
+    List<SysMenu> queryPage();
+    /**
+     * 查询
+     */
+    List<SysMenu> queryAll(String title, String status);
+    /**
+     * 前端菜单目录下拉框
+     */
+    List<SysMenu> getSelect();
 
     /**
      * 新增数据

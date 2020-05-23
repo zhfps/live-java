@@ -8,6 +8,7 @@ package com.live.zhf.utils;
 public enum ResultCode {
     /* 成功状态码 */
     SUCCESS(200, "success"),
+    QUERY_ERROR(203, "请求参数错误"),
     PERMISSION_NO_ACCESS(70001, "无访问权限"),
     PERMISSION_TOKEN_ERROE(70002, "Token有误");
 
