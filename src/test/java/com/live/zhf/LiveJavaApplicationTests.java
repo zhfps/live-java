@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.live.zhf.learn.AnnoationTest;
 import com.live.zhf.learn.IoTest;
 import com.live.zhf.learn.TestUtil;
+import com.live.zhf.leetcode.Solution;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -71,4 +72,9 @@ class LiveJavaApplicationTests {
         IoTest.readerFile("D:/tcl/data.txt");
     }
 
+    @Test
+    void LeetCode001(){
+       int[] nums = {2, 7, 11, 15};
+        System.out.println(new Solution().twoSum(nums, 13));
+    }
 }
