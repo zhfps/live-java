@@ -14,53 +14,20 @@
     </resultMap>
 
     <!--查询单个-->
-    <select id="queryById" resultMap="SysPermissionMap">
+    <select id="get" resultMap="SysPermissionMap">
         select
           id, parentId, name, css, href, type, permission, sort
         from yunxi.sys_permission
         where id = #{id}
     </select>
 
-    <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="SysPermissionMap">
+    <!--分页数据-->
+    <select id="queryPage" resultMap="SysPermissionMap">
         select
           id, parentId, name, css, href, type, permission, sort
         from yunxi.sys_permission
-        limit #{offset}, #{limit}
     </select>
 
-    <!--通过实体作为筛选条件查询-->
-    <select id="queryAll" resultMap="SysPermissionMap">
-        select
-          id, parentId, name, css, href, type, permission, sort
-        from yunxi.sys_permission
-        <where>
-            <if test="id != null">
-                and id = #{id}
-            </if>
-            <if test="parentid != null">
-                and parentId = #{parentid}
-            </if>
-            <if test="name != null and name != ''">
-                and name = #{name}
-            </if>
-            <if test="css != null and css != ''">
-                and css = #{css}
-            </if>
-            <if test="href != null and href != ''">
-                and href = #{href}
-            </if>
-            <if test="type != null">
-                and type = #{type}
-            </if>
-            <if test="permission != null and permission != ''">
-                and permission = #{permission}
-            </if>
-            <if test="sort != null">
-                and sort = #{sort}
-            </if>
-        </where>
-    </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
@@ -98,7 +65,7 @@
     </update>
 
     <!--通过主键删除-->
-    <delete id="deleteById">
+    <delete id="delete">
         delete from yunxi.sys_permission where id = #{id}
     </delete>
 

@@ -1,4 +1,4 @@
-package com.live.zhf.exception;
+package com.live.zhf.exception.exception;
 
 public class InsertException extends Exception {
     public InsertException(String msg, Throwable t) {

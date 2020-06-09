@@ -17,7 +17,7 @@
     </resultMap>
 
     <!--查询单个-->
-    <select id="queryById" resultMap="SysMenuMap">
+    <select id="get" resultMap="SysMenuMap">
         select
           id, parentId, path, name, title, icon, color, directory, permission, status, sort
         from yunxi.sys_menu
@@ -93,7 +93,7 @@
     </update>
 
     <!--通过主键删除-->
-    <delete id="deleteById">
+    <delete id="delete">
         delete from yunxi.sys_menu where id = #{id}
     </delete>
 

@@ -1,10 +1,15 @@
 package com.live.zhf.exception;
 
+import com.live.zhf.exception.exception.CaptchaExcetion;
+import com.live.zhf.exception.exception.InsertException;
+import com.live.zhf.exception.exception.NotFoundUserException;
+import com.live.zhf.exception.exception.SysException;
 import com.live.zhf.utils.Result;
 import com.live.zhf.utils.ResultBuilder;
 import com.live.zhf.utils.ResultCode;
 import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -68,6 +73,33 @@ public class ExceptionHandlers {
     public Result<String> handlerInsertException(InsertException e){
         log.error(e.getMessage());
         Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.PERMISSION_TOKEN_ERROE);
+        return result;
+    }
+    @ExceptionHandler(value = { UsernameNotFoundException.class })
+    @ResponseBody
+    public Result<String> handlerUsernameNotFoundException(UsernameNotFoundException e){
+        log.error(e.getMessage());
+        Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.NOT_USER);
+        return result;
+    }
+    @ExceptionHandler(value = { NotFoundUserException.class })
+    @ResponseBody
+    public Result<String> handlerNotFoundUserException(NotFoundUserException e){
+        log.error(e.getMessage());
+        Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.NOT_USER);
+        return result;
+    }
+
+    /***
+     * 验证码错误
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(value = { CaptchaExcetion.class })
+    @ResponseBody
+    public Result<String> handlerCaptchaExcetion(CaptchaExcetion e){
+        log.error(e.getMessage());
+        Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.NOT_USER);
         return result;
     }
 }

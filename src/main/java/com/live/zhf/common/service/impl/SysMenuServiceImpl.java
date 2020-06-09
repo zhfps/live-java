@@ -5,15 +5,10 @@ import com.github.pagehelper.PageInfo;
 import com.live.zhf.common.entity.*;
 import com.live.zhf.common.dao.SysMenuDao;
 import com.live.zhf.common.service.SysMenuService;
-import com.live.zhf.exception.DeleteException;
-import com.live.zhf.exception.InsertException;
-import com.live.zhf.exception.UpdateException;
 import com.live.zhf.utils.*;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,15 +31,22 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @return 实例对象
      */
     @Override
-    public Result<SysMenu> queryById(Integer id) {
-        Result<SysMenu> result = this.resultBuilder.success(this.sysMenuDao.queryById(id), ResultCode.SUCCESS);
+    public Result<SysMenu> get(Integer id) {
+        Result<SysMenu> result = this.resultBuilder.success(this.sysMenuDao.get(id), ResultCode.SUCCESS);
         return result;
     }
 
 
     @Override
-    public Result<PageInfo> queryPage(Integer currentPage, Integer pageSize) {
-        PageHelper.startPage(currentPage, pageSize);
+    public Result<PageInfo> queryPage(Integer currentPage, Integer pageSize,String order,Integer sortType) {
+        String orderBy = order;
+        if(sortType == 1){
+            orderBy+=" desc";
+        }else {
+            orderBy+=" asc";
+        }
+
+        PageHelper.startPage(currentPage, pageSize,orderBy);
         List<SysMenu> menus = this.sysMenuDao.queryPage();
         PageInfo pageInfo = new PageInfo(menus);
         Result<PageInfo> result = this.resultBuilder.success(pageInfo, ResultCode.SUCCESS);
@@ -81,15 +83,17 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @return 实例对象
      */
     @Override
-    public Result<SysMenu> insert(SysMenu sysMenu) throws InsertException {
+    public Result<Boolean> insert(SysMenu sysMenu) {
+       Result<Boolean> result;
        Integer index = this.sysMenuDao.insert(sysMenu);
-       if(index<1){
-           throw new InsertException("新增菜单失败");
-       }else {
-           Result<SysMenu> result = this.resultBuilder.success(sysMenu, ResultCode.SUCCESS);
-           return result;
-       }
 
+       if(index<1){
+             result= this.resultBuilder.error(true, ResultCode.CREATE_ERROE);
+       }else {
+            result= this.resultBuilder.success(true, ResultCode.SUCCESS);
+
+       }
+        return result;
     }
 
     /**
@@ -99,14 +103,17 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @return 实例对象
      */
     @Override
-    public Result<SysMenu> update(SysMenu sysMenu) throws UpdateException {
+    public Result<Boolean> update(SysMenu sysMenu) {
+         Result<Boolean> result;
         Integer index = this.sysMenuDao.update(sysMenu);
+
         if(index<1){
-            throw new UpdateException("修改菜单失败");
+            result= this.resultBuilder.error(true, ResultCode.CREATE_ERROE);
         }else {
-            Result<SysMenu> result = this.resultBuilder.success(sysMenu, ResultCode.SUCCESS);
-            return result;
+            result= this.resultBuilder.success(true, ResultCode.SUCCESS);
+
         }
+        return result;
     }
 
     /**
@@ -116,13 +123,16 @@ public class SysMenuServiceImpl implements SysMenuService {
      * @return 是否成功
      */
     @Override
-    public Result<Boolean> deleteById(Integer id) throws DeleteException {
-        Integer index = this.sysMenuDao.deleteById(id);
+    public Result<Boolean> delete(Integer id){
+        Result<Boolean> result;
+        Integer index = this.sysMenuDao.delete(id);
+
         if(index<1){
-            throw new DeleteException("删除菜单失败");
+            result= this.resultBuilder.error(true, ResultCode.CREATE_ERROE);
         }else {
-            Result<Boolean> result = this.resultBuilder.success(false, ResultCode.SUCCESS);
-            return result;
+            result= this.resultBuilder.success(true, ResultCode.SUCCESS);
+
         }
+        return result;
     }
 }

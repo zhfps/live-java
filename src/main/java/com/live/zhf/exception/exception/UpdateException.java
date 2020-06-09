@@ -1,4 +1,4 @@
-package com.live.zhf.exception;
+package com.live.zhf.exception.exception;
 
 public class UpdateException extends Exception {
     public UpdateException(String msg, Throwable t) {

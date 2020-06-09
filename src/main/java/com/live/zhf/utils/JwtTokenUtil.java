@@ -1,10 +1,9 @@
-package com.live.zhf.config;
-import com.live.zhf.exception.SysException;
+package com.live.zhf.utils;
+import com.live.zhf.exception.exception.SysException;
 import io.jsonwebtoken.*;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
-import javax.naming.AuthenticationException;
 import java.util.Date;
 
 /**
@@ -12,7 +11,7 @@ import java.util.Date;
  */
 @ConfigurationProperties(prefix = "config.jwt")
 @Component
-public class JwtConfig {
+public class JwtTokenUtil {
     private String secret;
     private long expire;
     private String header;

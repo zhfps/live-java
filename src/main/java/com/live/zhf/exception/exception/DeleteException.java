@@ -1,4 +1,4 @@
-package com.live.zhf.exception;
+package com.live.zhf.exception.exception;
 
 public class DeleteException extends Exception {
     public DeleteException(String msg, Throwable t) {

@@ -11,7 +11,7 @@
     </resultMap>
 
     <!--查询单个-->
-    <select id="queryById" resultMap="SysRoleMap">
+    <select id="get" resultMap="SysRoleMap">
         select
           id, name, description, createTime, updateTime
         from yunxi.sys_role
@@ -19,35 +19,10 @@
     </select>
 
     <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="SysRoleMap">
+    <select id="queryPage" resultMap="SysRoleMap">
         select
           id, name, description, createTime, updateTime
         from yunxi.sys_role
-        limit #{offset}, #{limit}
-    </select>
-
-    <!--通过实体作为筛选条件查询-->
-    <select id="queryAll" resultMap="SysRoleMap">
-        select
-          id, name, description, createTime, updateTime
-        from yunxi.sys_role
-        <where>
-            <if test="id != null">
-                and id = #{id}
-            </if>
-            <if test="name != null and name != ''">
-                and name = #{name}
-            </if>
-            <if test="description != null and description != ''">
-                and description = #{description}
-            </if>
-            <if test="createtime != null">
-                and createTime = #{createtime}
-            </if>
-            <if test="updatetime != null">
-                and updateTime = #{updatetime}
-            </if>
-        </where>
     </select>
 
     <!--新增所有列-->
@@ -77,7 +52,7 @@
     </update>
 
     <!--通过主键删除-->
-    <delete id="deleteById">
+    <delete id="delete">
         delete from yunxi.sys_role where id = #{id}
     </delete>
 

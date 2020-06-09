@@ -1,8 +1,24 @@
 package com.live.zhf.common.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.live.zhf.common.entity.LoginUser;
+import com.live.zhf.common.entity.SysPermission;
 import com.live.zhf.common.entity.SysUser;
 import com.live.zhf.common.dao.SysUserDao;
 import com.live.zhf.common.service.SysUserService;
+import com.live.zhf.exception.exception.NotFoundUserException;
+import com.live.zhf.utils.JwtTokenUtil;
+import com.live.zhf.utils.Result;
+import com.live.zhf.utils.ResultBuilder;
+import com.live.zhf.utils.ResultCode;
+import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,10 +30,16 @@ import java.util.List;
  * @author makejava
  * @since 2020-05-14 20:39:42
  */
+@Log
 @Service("sysUserService")
-public class SysUserServiceImpl implements SysUserService {
+public class SysUserServiceImpl implements SysUserService, UserDetailsService {
     @Resource
     private SysUserDao sysUserDao;
+
+    @Resource
+    private ResultBuilder resultBuilder;
+    @Resource
+    private JwtTokenUtil jwtTokenUtil;
 
     /**
      * 通过ID查询单条数据
@@ -26,17 +48,31 @@ public class SysUserServiceImpl implements SysUserService {
      * @return 实例对象
      */
     @Override
-    public SysUser queryById(Integer id) {
-        return this.sysUserDao.queryById(id);
+    public Result<SysUser> get(Integer id) {
+        Result<SysUser> result = resultBuilder.success(this.sysUserDao.get(id), ResultCode.SUCCESS);
+        return result;
     }
 
     /**
      * 查询多条数据
+     *
+     * @param currentPage 查询起始位置
+     * @param pageSize 查询条数
      * @return 对象列表
      */
     @Override
-    public List<SysUser> queryAll() {
-        return this.sysUserDao.queryAll();
+    public Result<PageInfo> queryPage(Integer currentPage, Integer pageSize, String order, Integer sortType){
+        String orderBy = order;
+        if(sortType == 1){
+            orderBy+=" desc";
+        }else {
+            orderBy+=" asc";
+        }
+        PageHelper.startPage(currentPage, pageSize,orderBy);
+        List<SysUser> users = this.sysUserDao.queryPage();
+        PageInfo pageInfo = new PageInfo(users);
+        Result<PageInfo> result = this.resultBuilder.success(pageInfo, ResultCode.SUCCESS);
+        return result;
     }
 
     /**
@@ -46,9 +82,16 @@ public class SysUserServiceImpl implements SysUserService {
      * @return 实例对象
      */
     @Override
-    public SysUser insert(SysUser sysUser) {
-        this.sysUserDao.insert(sysUser);
-        return sysUser;
+    public Result<Boolean> insert(SysUser sysUser) {
+        Result<Boolean> result;
+        Integer cell =  this.sysUserDao.insert(sysUser);
+        if(cell > 0){
+            result = this.resultBuilder.success(true,ResultCode.SUCCESS);
+        }else {
+            result = this.resultBuilder.error(true,ResultCode.CREATE_ERROE);
+        }
+        return result;
+
     }
 
     /**
@@ -58,9 +101,15 @@ public class SysUserServiceImpl implements SysUserService {
      * @return 实例对象
      */
     @Override
-    public SysUser update(SysUser sysUser) {
-        this.sysUserDao.update(sysUser);
-        return this.queryById(sysUser.getId());
+    public Result<Boolean> update(SysUser sysUser) {
+        Result<Boolean> result;
+        Integer cell = this.sysUserDao.update(sysUser);
+        if(cell > 0){
+            result = this.resultBuilder.success(true,ResultCode.SUCCESS);
+        }else {
+            result = this.resultBuilder.error(true,ResultCode.CREATE_ERROE);
+        }
+        return result;
     }
 
     /**
@@ -70,7 +119,48 @@ public class SysUserServiceImpl implements SysUserService {
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(Integer id) {
-        return this.sysUserDao.deleteById(id) > 0;
+    public Result<Boolean> delete(Integer id) {
+        Result<Boolean> result;
+        Integer cell = this.sysUserDao.delete(id);
+        if(cell > 0){
+            result = this.resultBuilder.success(true,ResultCode.SUCCESS);
+        }else {
+            result = this.resultBuilder.error(true,ResultCode.CREATE_ERROE);
+        }
+        return result;
+    }
+
+    @Override
+    public List<SysPermission> getUserPermission(Integer userId) {
+        return this.sysUserDao.getUserPermission(userId);
+    }
+
+    @Override
+    public String login(String userName, String passWord, String Code) {
+        SysUser user = sysUserDao.getUserByName(userName);
+        if(user == null){
+            throw  new NotFoundUserException("用户不存在");
+        }else if(BCrypt.checkpw(passWord,user.getPassword())){
+            throw  new NotFoundUserException("密码错误");
+        }else {
+            String AccessToken =jwtTokenUtil.createToken(userName);
+            return AccessToken;
+        }
+
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        SysUser user = sysUserDao.getUserByName(username);
+        if (user == null)
+        {
+            log.info("用户"+username+"不存在.");
+            throw new UsernameNotFoundException("登录用户：" + username + " 不存在");
+        }
+        return createLoginUser(user);
+    }
+    public UserDetails createLoginUser(SysUser user)
+    {
+        return new LoginUser(user, this.sysUserDao.getLoginUserPermission(user.getId()));
     }
 }

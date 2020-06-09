@@ -7,6 +7,7 @@
         <result property="username" column="username" jdbcType="VARCHAR"/>
         <result property="password" column="password" jdbcType="VARCHAR"/>
         <result property="nickname" column="nickname" jdbcType="VARCHAR"/>
+        <result property="roleName" column="roleName" jdbcType="VARCHAR"/>
         <result property="icon" column="icon" jdbcType="VARCHAR"/>
         <result property="phone" column="phone" jdbcType="VARCHAR"/>
         <result property="telephone" column="telephone" jdbcType="VARCHAR"/>
@@ -17,20 +18,50 @@
         <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
-
+    <resultMap type="com.live.zhf.common.entity.SysPermission" id="SysPermissionMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="parentId" column="parentId" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="css" column="css" jdbcType="VARCHAR"/>
+        <result property="href" column="href" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="OTHER"/>
+        <result property="permission" column="permission" jdbcType="VARCHAR"/>
+        <result property="sort" column="sort" jdbcType="INTEGER"/>
+    </resultMap>
     <!--查询单个-->
-    <select id="queryById" resultMap="SysUserMap">
-        select
-          id, username, password, nickname, icon, phone, telephone, email, birthday, sex, status, createTime, updateTime
-        from yunxi.sys_user
-        where id = #{id}
+    <select id="get" resultMap="SysUserMap">
+         select
+          sys_user.id, sys_user.username, sys_role.name as roleName, sys_user.password, sys_user.nickname, sys_user.icon, sys_user.phone, sys_user.telephone, sys_user.email, sys_user.birthday, sys_user.sex, sys_user.status, sys_user.createTime, sys_user.updateTime
+         from sys_user left join sys_role_user on sys_user.id = sys_role_user.userId left join sys_role on sys_role_user.userId = sys_role.id having sys_user.id = #{id}
+    </select>
+    <!--查询单个-->
+    <select id="getUserByName" resultMap="SysUserMap">
+         select
+          sys_user.id, sys_user.username, sys_role.name as roleName, sys_user.password, sys_user.nickname, sys_user.icon, sys_user.phone, sys_user.telephone, sys_user.email, sys_user.birthday, sys_user.sex, sys_user.status, sys_user.createTime, sys_user.updateTime
+         from sys_user left join sys_role_user on sys_user.id = sys_role_user.userId left join sys_role on sys_role_user.userId = sys_role.id having sys_user.username = #{userName}
+    </select>
+    <!--查询用户拥有的权限-->
+    <select id="getUserPermission" resultMap="SysPermissionMap">
+         select id, parentId, name, css, href, type, permission, sort from sys_permission where id in (
+            select permissionId from sys_role_permission where roleId in (
+            select id from sys_role where id = (
+             select sys_role_user.roleId from sys_role_user where userId = #{userId}
+            )))
+    </select>
+    <!--登录用户-->
+    <select id="getLoginUserPermission" resultType="java.lang.String">
+         select permission from sys_permission where id in (
+            select permissionId from sys_role_permission where roleId in (
+            select id from sys_role where id = (
+             select sys_role_user.roleId from sys_role_user where userId = #{userId}
+            )))
     </select>
 
     <!--查询指定行数据-->
-    <select id="queryAll" resultMap="SysUserMap">
+    <select id="queryPage" resultMap="SysUserMap">
         select
-          id, username, password, nickname, icon, phone, telephone, email, birthday, sex, status, createTime, updateTime
-        from yunxi.sys_user
+          sys_user.id, sys_user.username, sys_role.name as roleName, sys_user.password, sys_user.nickname, sys_user.icon, sys_user.phone, sys_user.telephone, sys_user.email, sys_user.birthday, sys_user.sex, sys_user.status, sys_user.createTime, sys_user.updateTime
+        from sys_user left join sys_role_user on sys_user.id = sys_role_user.userId left join sys_role on sys_role_user.userId = sys_role.id
     </select>
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
@@ -83,7 +114,7 @@
     </update>
 
     <!--通过主键删除-->
-    <delete id="deleteById">
+    <delete id="delete">
         delete from yunxi.sys_user where id = #{id}
     </delete>
 

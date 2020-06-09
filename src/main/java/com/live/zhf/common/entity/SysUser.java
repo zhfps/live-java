@@ -1,6 +1,8 @@
 package com.live.zhf.common.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.io.Serializable;
@@ -21,6 +23,8 @@ public class SysUser implements Serializable {
     private String password;
     
     private String nickname;
+
+    private String roleName;
     
     private String icon;
     
@@ -35,9 +39,11 @@ public class SysUser implements Serializable {
     private Integer sex;
     
     private Integer status;
-    
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
-    
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
 
@@ -145,4 +151,11 @@ public class SysUser implements Serializable {
         this.updateTime = updateTime;
     }
 
+    public String getRoleName() {
+        return roleName;
+    }
+
+    public void setRoleName(String rolename) {
+        this.roleName = rolename;
+    }
 }

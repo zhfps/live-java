@@ -10,7 +10,11 @@ public enum ResultCode {
     SUCCESS(200, "success"),
     QUERY_ERROR(203, "请求参数错误"),
     PERMISSION_NO_ACCESS(70001, "无访问权限"),
-    PERMISSION_TOKEN_ERROE(70002, "Token有误");
+    PERMISSION_TOKEN_ERROE(70002, "Token有误"),
+    NOT_USER(401, "用户不存在"),
+    CREATE_ERROE(70003, "创建失败"),
+    CAPTCH_ERROE(402, "验证码错误"),
+    AUTH_ERROE(403, "用户权限有误");
 
     private Integer code;
     private String msg;

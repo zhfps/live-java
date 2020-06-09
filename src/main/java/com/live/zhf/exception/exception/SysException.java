@@ -1,4 +1,4 @@
-package com.live.zhf.exception;
+package com.live.zhf.exception.exception;
 
 public class SysException extends Exception {
     public SysException(String msg, Throwable t) {

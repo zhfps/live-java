@@ -1,22 +1,15 @@
 package com.live.zhf.common.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.live.zhf.base.BaseController;
 import com.live.zhf.common.entity.*;
 import com.live.zhf.common.service.SysMenuService;
-import com.live.zhf.exception.DeleteException;
-import com.live.zhf.exception.InsertException;
-import com.live.zhf.exception.UpdateException;
-import com.live.zhf.utils.MenuTree;
 import com.live.zhf.utils.Result;
-import com.live.zhf.utils.ResultBuilder;
-import com.live.zhf.utils.ResultCode;
 import io.swagger.annotations.*;
-import org.springframework.beans.BeanUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,16 +21,16 @@ import java.util.List;
 @Api(value = "菜单相关接口",tags = "菜单相关接口")
 @RestController
 @RequestMapping("api/menu/")
-public class SysMenuController {
-    /**
-     * 服务对象
-     */
+public class SysMenuController implements BaseController<SysMenu> {
+
     @Resource
     private SysMenuService sysMenuService;
-
-    @Resource
-    private ResultBuilder resultBuilder;
-
+    @ApiOperation(value = "获取一条菜单")
+    @GetMapping("get")
+    @Override
+    public Result<SysMenu> get(Integer id) {
+        return this.sysMenuService.get(id);
+    }
     @ApiOperation(value = "获取菜单树")
     @GetMapping("getTree")
     @ResponseBody
@@ -60,6 +53,8 @@ public class SysMenuController {
          return sysMenuService.getSelect();
     }
 
+
+
     @ApiOperation(value = "分页获取菜单")
     @GetMapping("getTable")
     @ResponseBody
@@ -69,39 +64,33 @@ public class SysMenuController {
                     Integer currentPage,
             @ApiParam(name = "pageSize",value = "每页条数",required = true)
             @RequestParam(name = "pageSize",required = true)
-                    Integer pageSize) {
-        return sysMenuService.queryPage(currentPage,pageSize);
+                    Integer pageSize,
+            @ApiParam(name = "order",value = "排序字段",required = true)
+            @RequestParam(name = "排序字段",required = true)
+            String order,
+            @ApiParam(name = "sortType",value = "排序方式",required = true)
+            @RequestParam(name = "排序方式",required = true)
+            Integer sortType) {
+        return sysMenuService.queryPage(currentPage,pageSize,order,sortType);
     }
-
-    @ApiOperation(value = "根据ID获取菜单")
-    @GetMapping("getMenu")
-    @ResponseBody
-    public Result<SysMenu> getMenuById(
-            @ApiParam(name = "id",value = "id号",required = true)
-            @RequestParam(name = "id",required = true)
-                    Integer id
-           ) {
-        return sysMenuService.queryById(id);
-    }
-
-
+    
     @ApiOperation(value = "新增菜单")
-    @PostMapping(value = "addMenu")
+    @PostMapping(value = "insert")
     @ResponseBody
-    public Result<SysMenu> addMenu(
+    public Result<Boolean> insert(
             @ApiParam(name = "menu",value = "菜单",required = true)
             @RequestBody SysMenu menu
-           ) throws InsertException {
+           ) {
         return sysMenuService.insert(menu);
     }
 
     @ApiOperation(value = "修改菜单")
     @PostMapping("updateMenu")
     @ResponseBody
-    public Result<SysMenu> updateMenu(
+    public Result<Boolean> update(
             @ApiParam(name = "menu",value = "菜单",required = true)
                   @Validated @RequestBody SysMenu menu
-           ) throws UpdateException {
+           ){
         return sysMenuService.update(menu);
     }
 
@@ -113,7 +102,7 @@ public class SysMenuController {
             @ApiParam(name = "id",value = "id号",required = true)
             @RequestParam(name = "id",required = true)
                     Integer id
-           ) throws DeleteException {
-        return sysMenuService.deleteById(id);
+           ) {
+        return sysMenuService.delete(id);
     }
 }

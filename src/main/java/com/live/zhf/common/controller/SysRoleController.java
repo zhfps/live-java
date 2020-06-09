@@ -1,7 +1,13 @@
 package com.live.zhf.common.controller;
 
+import com.github.pagehelper.PageInfo;
+import com.live.zhf.base.BaseController;
+import com.live.zhf.base.BaseService;
 import com.live.zhf.common.entity.SysRole;
 import com.live.zhf.common.service.SysRoleService;
+import com.live.zhf.utils.Result;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -12,24 +18,44 @@ import javax.annotation.Resource;
  * @author makejava
  * @since 2020-05-18 23:05:26
  */
+@Api(value = "角色相关接口",tags = "角色")
 @RestController
-@RequestMapping("sysRole")
-public class SysRoleController {
+@RequestMapping("/api/sysRole/")
+public class SysRoleController implements BaseController<SysRole> {
     /**
      * 服务对象
      */
     @Resource
     private SysRoleService sysRoleService;
 
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-    @GetMapping("selectOne")
-    public SysRole selectOne(Integer id) {
-        return this.sysRoleService.queryById(id);
+    @ApiOperation(value = "根据ID 获取一条权限")
+    @GetMapping("get")
+    @Override
+    public Result<SysRole> get(Integer id) {
+        return sysRoleService.get(id);
     }
-
+    @ApiOperation(value = "分页获取数据")
+    @GetMapping("queryPage")
+    @Override
+    public Result<PageInfo> queryPage(Integer currentPage, Integer pageSize,String order, Integer sortType) {
+        return sysRoleService.queryPage(currentPage,pageSize,order,sortType);
+    }
+    @ApiOperation(value = "新增")
+    @PostMapping("insert")
+    @Override
+    public Result<Boolean> insert(@RequestBody SysRole sysRole) {
+        return sysRoleService.insert(sysRole);
+    }
+    @ApiOperation(value = "更新")
+    @PostMapping("update")
+    @Override
+    public Result<Boolean> update(@RequestBody SysRole sysRole) {
+        return sysRoleService.update(sysRole);
+    }
+    @ApiOperation(value = "删除")
+    @DeleteMapping(value = "delete")
+    @Override
+    public Result<Boolean> delete(Integer id) {
+        return sysRoleService.delete(id);
+    }
 }
