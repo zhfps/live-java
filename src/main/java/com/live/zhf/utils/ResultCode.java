@@ -14,7 +14,8 @@ public enum ResultCode {
     NOT_USER(401, "用户不存在"),
     CREATE_ERROE(70003, "创建失败"),
     CAPTCH_ERROE(402, "验证码错误"),
-    AUTH_ERROE(403, "用户权限有误");
+    AUTH_ERROE(403, "用户权限有误"),
+    AUTH_NOT(403, "没有访问权限");
 
     private Integer code;
     private String msg;

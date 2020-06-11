@@ -6,6 +6,7 @@ import com.live.zhf.common.entity.*;
 import com.live.zhf.common.service.SysMenuService;
 import com.live.zhf.utils.Result;
 import io.swagger.annotations.*;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,12 +26,15 @@ public class SysMenuController implements BaseController<SysMenu> {
 
     @Resource
     private SysMenuService sysMenuService;
+
     @ApiOperation(value = "获取一条菜单")
+    @PreAuthorize("hasAuthority('sys:menu:get')")
     @GetMapping("get")
     @Override
     public Result<SysMenu> get(Integer id) {
         return this.sysMenuService.get(id);
     }
+
     @ApiOperation(value = "获取菜单树")
     @GetMapping("getTree")
     @ResponseBody
@@ -46,6 +50,7 @@ public class SysMenuController implements BaseController<SysMenu> {
             }
          return sysMenuService.queryAll(name,status);
     }
+
     @ApiOperation(value = "获取目树")
     @GetMapping("getSelect")
     @ResponseBody

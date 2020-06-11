@@ -9,6 +9,7 @@ import com.live.zhf.utils.ResultBuilder;
 import com.live.zhf.utils.ResultCode;
 import io.jsonwebtoken.SignatureException;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -87,6 +88,19 @@ public class ExceptionHandlers {
     public Result<String> handlerNotFoundUserException(NotFoundUserException e){
         log.error(e.getMessage());
         Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.NOT_USER);
+        return result;
+    }
+
+    /**
+     * 权限不足
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(value = { AccessDeniedException.class })
+    @ResponseBody
+    public Result<String> handlerAccessDeniedException(AccessDeniedException e){
+        log.error(e.getMessage());
+        Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.AUTH_NOT);
         return result;
     }
 
