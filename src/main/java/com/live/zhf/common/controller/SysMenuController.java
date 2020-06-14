@@ -36,6 +36,7 @@ public class SysMenuController implements BaseController<SysMenu> {
     }
 
     @ApiOperation(value = "获取菜单树")
+    @PreAuthorize("hasAuthority('sys:menu:query')")
     @GetMapping("getTree")
     @ResponseBody
     public Result<List<Menu>> queryAll(
@@ -61,7 +62,8 @@ public class SysMenuController implements BaseController<SysMenu> {
 
 
     @ApiOperation(value = "分页获取菜单")
-    @GetMapping("getTable")
+    @PreAuthorize("hasAuthority('sys:menu:query')")
+    @GetMapping("queryPage")
     @ResponseBody
     public Result<PageInfo> queryPage(
             @ApiParam(name = "currentPage",value = "当前页",required = true)

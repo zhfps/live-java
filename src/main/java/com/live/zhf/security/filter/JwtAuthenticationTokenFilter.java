@@ -45,7 +45,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         String token = request.getHeader("Access_Token");
         // 2. 校验空值情况
         if(StringUtils.isEmpty(token)) {
-            throw new NotFoundUserException("没有token");
+            throw new NotFoundUserException("not token");
         }
         // 5. token 解析
         try {

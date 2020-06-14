@@ -3,6 +3,8 @@ package com.live.zhf.common.service;
 import com.live.zhf.base.BaseService;
 import com.live.zhf.common.entity.SysPermission;
 import com.live.zhf.common.entity.SysUser;
+import org.springframework.security.core.Authentication;
+
 import java.util.List;
 import java.util.Set;
 
@@ -20,5 +22,5 @@ public interface SysUserService extends BaseService<SysUser> {
      */
     List<SysPermission> getUserPermission(Integer userId);
 
-    String login(String userName,String passWord,String Code);
+    String login(Authentication authentication);
 }

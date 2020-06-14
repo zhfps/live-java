@@ -24,13 +24,13 @@ import java.util.Map;
 
 @Component
 @Slf4j
-public class AuthenctiationFailureHandler implements AuthenticationFailureHandler {
+public class AuthenctiationFailureHandler implements AuthenticationEntryPoint {
 
     @Autowired
     private ObjectMapper objectMapper;
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
         log.info("鉴权失败");
         Result<String> result = new Result<String>();
             response.setHeader("Access-Control-Allow-Origin", "*");
@@ -53,11 +53,13 @@ public class AuthenctiationFailureHandler implements AuthenticationFailureHandle
             }else if(exception instanceof CredentialsExpiredException){
 
                 result = ResultBuilder.error("密码已过期，登录失败!", ResultCode.AUTH_ERROE);
+            }else if(exception instanceof InsufficientAuthenticationException){
+
+                result = ResultBuilder.error("未登录", ResultCode.NOT_LOGIN);
             }else{
                 result = ResultBuilder.error(exception.getMessage(), ResultCode.AUTH_ERROE);;
             }
             response.getWriter().write(objectMapper.writeValueAsString(result));
 
     }
-    
 }

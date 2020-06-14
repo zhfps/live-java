@@ -2,11 +2,14 @@ package com.live.zhf.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class LoginUser implements UserDetails, Serializable {
     private static final long serialVersionUID = -1379274258881257107L;
@@ -218,6 +221,7 @@ public class LoginUser implements UserDetails, Serializable {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities()
     {
-        return null;
+        return permissions.parallelStream().filter(p -> !StringUtils.isEmpty(p))
+            .map(p -> new SimpleGrantedAuthority(p)).collect(Collectors.toSet());
     }
 }

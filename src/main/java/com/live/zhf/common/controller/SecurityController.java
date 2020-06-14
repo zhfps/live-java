@@ -1,17 +1,24 @@
 package com.live.zhf.common.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.code.kaptcha.Producer;
+import com.google.gson.Gson;
 import com.live.zhf.common.entity.LoginUser;
 import com.live.zhf.common.service.SysUserService;
+import com.live.zhf.exception.exception.CodeException;
 import com.live.zhf.utils.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +30,9 @@ import java.util.Map;
 @Api(value = "权限模板",tags = "权限模块")
 @Controller
 public class SecurityController {
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
     @Resource
     private Producer captchaProducer;
 
@@ -47,10 +57,44 @@ public class SecurityController {
             e.printStackTrace();
         }
     }
-//    @ApiOperation(value ="登录" )
-//    @GetMapping(value = "/login")
-//    public Result<String> login(String userName, String password, String code){
-//      return ResultBuilder.success(sysUserService.login(userName,password,code), ResultCode.SUCCESS);
-//    }
+    @ApiOperation(value ="登录" )
+    @PostMapping(value = "/api/login")
+    @ResponseBody
+    public Result<String> login(
+            @RequestParam(name = "userName",required = true)String userName,
+            @RequestParam(name = "password",required = true)String password,
+            @RequestParam(name = "code",required = true)String code) throws CodeException {
+
+        if(StringUtils.isEmpty(code)) {
+            throw new CodeException("验证码不能为空");
+        }
+
+        // 1. 获取服务器redeis中的验证码
+        String Code = redisTemplate.opsForValue().get("Code");
+
+        // 2. 请求验证码校验
+        if(!StringUtils.equals(Code, code)) {
+            throw new CodeException("验证码不正确");
+        }
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(userName, password)
+        );
+
+        SecurityContextHolder.getContext()
+                .setAuthentication(authentication);
+
+
+      return ResultBuilder.success(sysUserService.login(authentication), ResultCode.SUCCESS);
+    }
+
+    @ApiOperation(value ="获取当前用户信息" )
+    @GetMapping(value = "/info")
+    @ResponseBody
+    public Result<Authentication> Info(){
+
+       Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+      return ResultBuilder.success(authentication, ResultCode.SUCCESS);
+    }
+
 
 }

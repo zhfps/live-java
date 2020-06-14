@@ -1,12 +1,8 @@
 package com.live.zhf.security;
 
 import com.live.zhf.security.filter.JwtAuthenticationTokenFilter;
-import com.live.zhf.security.filter.ValidateCodeFilter;
 import com.live.zhf.security.handle.AuthenctiationFailureHandler;
 import com.live.zhf.security.handle.AuthenticationAccessDeniedHandler;
-import com.live.zhf.security.handle.AuthenticationSuccessHandler;
-import com.live.zhf.security.handle.UserLogoutSuccessHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -26,8 +22,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Resource
     private UserDetailsService userDetailsService;
 
-    @Resource
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Resource
     private AuthenctiationFailureHandler authenctiationFailureHandler;
@@ -36,15 +30,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Resource
     private AuthenticationAccessDeniedHandler authenticationAccessDeniedHandler;
 
-
-    @Autowired
-    private ValidateCodeFilter validateCodeFilter;
-
     @Resource
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
-    @Resource
-    private UserLogoutSuccessHandler userLogoutSuccessHandler;
 
 
     
@@ -83,11 +71,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 // CRSF禁用，因为不使用session
                 .csrf().disable()
                 // 基于token，所以不需要session
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER).and()
                 // 过滤请求
                 .authorizeRequests()
                 // 对于登录login 验证码captchaImage 允许匿名访问
-                .antMatchers("/login", "/captchaImage").anonymous()
+                .antMatchers("/api/login", "/captchaImage").anonymous()
                 .antMatchers(
                         "/*.html",
                         "/**/*.html",
@@ -105,16 +93,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .anyRequest().authenticated()
                 .and()
                 .headers().frameOptions().disable();
-        httpSecurity.formLogin()
-                .loginProcessingUrl("/login")
-                .successHandler(authenticationSuccessHandler)
-                .failureHandler(authenctiationFailureHandler);
-        //登录验证码验证
-        httpSecurity.addFilterBefore(validateCodeFilter, UsernamePasswordAuthenticationFilter.class);
-        httpSecurity.logout().logoutUrl("/logout").logoutSuccessHandler(userLogoutSuccessHandler);
+        httpSecurity.formLogin().disable();
+
+        httpSecurity.logout().disable();
         // 添加JWT filter
         httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
         //异常处理
+        // 认证失败处理类
+        httpSecurity.exceptionHandling().authenticationEntryPoint(authenctiationFailureHandler);
         httpSecurity.exceptionHandling().accessDeniedHandler(authenticationAccessDeniedHandler);
     }
 

@@ -2,6 +2,7 @@ package com.live.zhf.common.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
 import com.live.zhf.common.entity.LoginUser;
 import com.live.zhf.common.entity.SysPermission;
 import com.live.zhf.common.entity.SysUser;
@@ -13,8 +14,10 @@ import com.live.zhf.utils.Result;
 import com.live.zhf.utils.ResultBuilder;
 import com.live.zhf.utils.ResultCode;
 import lombok.extern.java.Log;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -38,9 +41,12 @@ public class SysUserServiceImpl implements SysUserService, UserDetailsService {
 
     @Resource
     private ResultBuilder resultBuilder;
+
     @Resource
     private JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    StringRedisTemplate redisTemplate;
     /**
      * 通过ID查询单条数据
      *
@@ -136,17 +142,9 @@ public class SysUserServiceImpl implements SysUserService, UserDetailsService {
     }
 
     @Override
-    public String login(String userName, String passWord, String Code) {
-        SysUser user = sysUserDao.getUserByName(userName);
-        if(user == null){
-            throw  new NotFoundUserException("用户不存在");
-        }else if(BCrypt.checkpw(passWord,user.getPassword())){
-            throw  new NotFoundUserException("密码错误");
-        }else {
-            String AccessToken =jwtTokenUtil.createToken(userName);
+    public String login(Authentication authentication) {
+            String AccessToken =jwtTokenUtil.createToken(authentication.getName());
             return AccessToken;
-        }
-
     }
 
     @Override
@@ -159,8 +157,21 @@ public class SysUserServiceImpl implements SysUserService, UserDetailsService {
         }
         return createLoginUser(user);
     }
+
     public UserDetails createLoginUser(SysUser user)
     {
-        return new LoginUser(user, this.sysUserDao.getLoginUserPermission(user.getId()));
+        Gson gson = new Gson();
+        String json = redisTemplate.opsForValue().get(user.getUsername());
+        if(StringUtils.isEmpty(json)){
+            LoginUser loginUser = new LoginUser(user, this.sysUserDao.getLoginUserPermission(user.getId()));
+            String newJson = gson.toJson(loginUser);
+            redisTemplate.opsForValue().set(loginUser.getUsername(),newJson);
+            return loginUser;
+        }else {
+            return gson.fromJson(json,LoginUser.class);
+        }
+
+
+
     }
 }

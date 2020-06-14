@@ -1,5 +1,6 @@
 package com.live.zhf.common.entity;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -13,12 +14,16 @@ public class SysMenu implements Serializable {
     
     private Integer id;
 
+    @NotNull
     private Integer parentId;
 
+    @NotNull
     private String path;
 
+    @NotNull
     private String name;
-    
+
+    @NotNull
     private String title;
     
     private String icon;
