@@ -85,6 +85,7 @@ public class SysMenuServiceImpl implements SysMenuService {
     @Override
     public Result<Boolean> insert(SysMenu sysMenu) {
        Result<Boolean> result;
+
        Integer index = this.sysMenuDao.insert(sysMenu);
 
        if(index<1){

@@ -1,5 +1,6 @@
 package com.live.zhf.exception;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.live.zhf.exception.exception.*;
 import com.live.zhf.utils.Result;
 import com.live.zhf.utils.ResultBuilder;
@@ -41,6 +42,19 @@ public class ExceptionHandlers {
     @ExceptionHandler(value = { DataIntegrityViolationException.class })
     @ResponseBody
     public Result<String> handlerDataIntegrityViolationException(DataIntegrityViolationException e){
+        log.error(e.getMessage());
+        Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.QUERY_ERROR);
+        return result;
+    }
+
+    /**
+     * 数据类型有误
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(value = { InvalidFormatException.class })
+    @ResponseBody
+    public Result<String> handlerInvalidFormatException(InvalidFormatException e){
         log.error(e.getMessage());
         Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.QUERY_ERROR);
         return result;
