@@ -20,8 +20,9 @@ public class KaptchaConfig {
         properties.setProperty("kaptcha.image.width", "100");
         properties.setProperty("kaptcha.image.height", "40");
         // 渐变色
-        properties.setProperty("kaptcha.background.clear.from", "242,186,232");
-        properties.setProperty("kaptcha.background.clear.to", "12,123,179");
+        properties.setProperty("kaptcha.background.clear.from", "240,242,245");
+        properties.setProperty("kaptcha.background.clear.to", "232,234,237");
+        properties.setProperty("kaptcha.border", "no");
 
         properties.setProperty("kaptcha.textproducer.font.size", "32");
         properties.setProperty("kaptcha.textproducer.font.color", "30,144,255");

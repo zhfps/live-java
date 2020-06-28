@@ -1,10 +1,6 @@
 package com.live.zhf.common.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.code.kaptcha.Producer;
-import com.google.gson.Gson;
-import com.live.zhf.common.entity.LoginUser;
 import com.live.zhf.common.service.SysUserService;
 import com.live.zhf.exception.exception.CodeException;
 import com.live.zhf.utils.*;
@@ -19,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -43,8 +38,8 @@ public class SecurityController {
     private SysUserService sysUserService;
 
     @ApiOperation(value ="获取验证码" )
-    @GetMapping(value = "/captchaImage")
-    public void getCode (HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    @GetMapping(value = "/captchaImage/{version}")
+    public void getCode(HttpServletRequest req, HttpServletResponse resp, @PathVariable String version) throws IOException {
         try {
             String capStr;
             BufferedImage bufferedImage = null;
@@ -63,8 +58,9 @@ public class SecurityController {
     public Result<String> login(
             @RequestParam(name = "userName",required = true)String userName,
             @RequestParam(name = "password",required = true)String password,
-            @RequestParam(name = "code",required = true)String code) throws CodeException {
+            @RequestParam(name = "code",required = true)String code,HttpServletRequest request) throws CodeException {
 
+        System.out.println(request.getLocalAddr());
         if(StringUtils.isEmpty(code)) {
             throw new CodeException("验证码不能为空");
         }

@@ -19,6 +19,7 @@ public enum ResultCode {
     CAPTCH_ERROE(402, "验证码错误"),
     AUTH_ERROE(403, "用户权限有误"),
     AUTH_NOT(403, "没有访问权限"),
+    NOT_FILE(404, "文件资源不存在"),
     NOT_LOGIN(403, "请先登录");
 
     private Integer code;

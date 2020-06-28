@@ -84,27 +84,5 @@ public class SysUserController implements BaseController<SysUser> {
         return  result;
     }
 
-    @ApiOperation(value = "登录")
-    @PostMapping("login")
-    public Result<String> getUserById(String userName,String passwrod ) {
-        String token = jwtConfig.createToken(userName);
-        Result<String> result = this.resultBuilder.success(token, ResultCode.SUCCESS);
-        return result;
-    }
-    @GetMapping(value = "getTokenSubject")
-    public Result<String> getTokenSubject() throws SysException {
-        Result<String> result;
-        String token ="eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTU4OTcyMjc2NCwiZXhwIjoxNTg5NzI2MzY0fQ.crjQlJOraGKMSbt0dfdA8zccmUjoSmYJVpHRCKRMhwwjsNXXRX7AOtkvQIpj9-CsUFAmbRGCi9ae9Jm7ipIXqw";
-        try {
-             String userName = jwtConfig.getSubject(token);
-             result = this.resultBuilder.success(userName, ResultCode.SUCCESS);
-             return result;
-        } catch (SysException e) {
-            throw new SysException(e.getMessage());
-
-        }
-
-    }
-
 
 }

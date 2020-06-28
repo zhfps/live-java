@@ -171,4 +171,16 @@ public class ExceptionHandlers {
         Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.NOT_USER);
         return result;
     }
+    /***
+     * 找不到文件
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(value = { NotFindFile.class })
+    @ResponseBody
+    public Result<String> handlerNotFindFile(NotFindFile e){
+        log.error(e.getMessage());
+        Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.NOT_FILE);
+        return result;
+    }
 }

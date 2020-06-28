@@ -14,7 +14,7 @@
         <result property="email" column="email" jdbcType="VARCHAR"/>
         <result property="birthday" column="birthday" jdbcType="DATE"/>
         <result property="sex" column="sex" jdbcType="INTEGER"/>
-        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="VARCHAR"/>
         <result property="createTime" column="createTime" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>

@@ -1,6 +1,7 @@
 package com.live.zhf.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -19,7 +20,8 @@ public class SysUser implements Serializable {
     private Integer id;
     
     private String username;
-    
+
+    @JsonIgnore
     private String password;
     
     private String nickname;
@@ -33,15 +35,19 @@ public class SysUser implements Serializable {
     private String telephone;
     
     private String email;
-    
+
+    @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date birthday;
     
     private Integer sex;
     
-    private Integer status;
+    private String status;
+
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date createTime;
+
     @JsonFormat(timezone = "GMT+8",pattern = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
@@ -131,7 +137,7 @@ public class SysUser implements Serializable {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
