@@ -5,6 +5,7 @@ import com.live.zhf.base.BaseController;
 import com.live.zhf.base.BaseService;
 import com.live.zhf.common.entity.SysRole;
 import com.live.zhf.common.service.SysRoleService;
+import com.live.zhf.exception.exception.SysException;
 import com.live.zhf.utils.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -36,14 +37,13 @@ public class SysRoleController implements BaseController<SysRole> {
     }
     @ApiOperation(value = "分页获取数据")
     @GetMapping("queryPage")
-    @Override
     public Result<PageInfo> queryPage(Integer currentPage, Integer pageSize,String order, Integer sortType) {
         return sysRoleService.queryPage(currentPage,pageSize,order,sortType);
     }
     @ApiOperation(value = "新增")
     @PostMapping("insert")
     @Override
-    public Result<Boolean> insert(@RequestBody SysRole sysRole) {
+    public Result<Boolean> insert(@RequestBody SysRole sysRole) throws SysException {
         return sysRoleService.insert(sysRole);
     }
     @ApiOperation(value = "更新")

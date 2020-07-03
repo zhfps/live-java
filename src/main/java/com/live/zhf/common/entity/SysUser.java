@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.io.Serializable;
 
@@ -18,10 +19,11 @@ public class SysUser implements Serializable {
     private static final long serialVersionUID = 274849642504365496L;
     
     private Integer id;
-    
+
+    @NotNull
     private String username;
 
-    @JsonIgnore
+    @NotNull
     private String password;
     
     private String nickname;

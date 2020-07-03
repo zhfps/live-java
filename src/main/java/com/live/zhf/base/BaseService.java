@@ -1,6 +1,7 @@
 package com.live.zhf.base;
 
 import com.github.pagehelper.PageInfo;
+import com.live.zhf.exception.exception.SysException;
 import com.live.zhf.utils.Result;
 
 public interface BaseService<T>{
@@ -8,9 +9,7 @@ public interface BaseService<T>{
 
     Result<T> get(Integer id);
 
-    Result<PageInfo> queryPage(Integer currentPage, Integer pageSize,String order,Integer sortType);
-
-    Result<Boolean> insert(T t);
+    Result<Boolean> insert(T t) throws SysException;
 
     Result<Boolean> update(T t);
 

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.live.zhf.base.BaseController;
 import com.live.zhf.common.entity.SysPermission;
 import com.live.zhf.common.service.SysPermissionService;
+import com.live.zhf.exception.exception.SysException;
 import com.live.zhf.utils.Result;
 import com.live.zhf.utils.ResultBuilder;
 import io.swagger.annotations.Api;
@@ -33,14 +34,13 @@ public class SysPermissionController implements BaseController<SysPermission> {
     }
     @ApiOperation(value = "分页获取数据")
     @GetMapping("queryPage")
-    @Override
     public Result<PageInfo> queryPage(Integer currentPage, Integer pageSize, String order, Integer sortType) {
         return this.sysPermissionService.queryPage(currentPage,pageSize,order,sortType);
     }
     @ApiOperation(value = "新增")
     @PostMapping("insert")
     @Override
-    public Result<Boolean> insert( @RequestBody SysPermission sysPermission) {
+    public Result<Boolean> insert( @RequestBody SysPermission sysPermission) throws SysException {
         return this.sysPermissionService.insert(sysPermission);
     }
     @ApiOperation(value = "更新")

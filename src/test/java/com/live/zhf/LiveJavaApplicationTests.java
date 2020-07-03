@@ -12,9 +12,39 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 
 @SpringBootTest
 class LiveJavaApplicationTests {
+
+    @Test
+    void Test(){
+        int[] arr1 = new int[]{1,2,3,4,5,6};
+        int[] arr3 = new int[]{1,2,7};
+        System.out.println(Arrays.toString(Contact(arr1,arr3)));
+    }
+
+    public int[] Contact(int[] A,int[] B){
+        int i=0,j=0,k=0;
+        int[] arr = new int[A.length+B.length];
+
+        while(i<A.length&&j<B.length){
+            if(A[i]<B[j])
+                arr[k]= A[i++];
+            else
+                arr[k]= B[j++];
+            k++;
+        }
+        while(i<A.length){
+            arr[k]= A[i++];
+            k++;
+        }
+        while(j<B.length){
+            arr[k]= B[j++];
+            k++;
+        }
+        return arr;
+    }
     //测试 @interface
     @Test
     void contextLoads() {

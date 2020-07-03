@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.live.zhf.base.BaseController;
 import com.live.zhf.common.entity.*;
 import com.live.zhf.common.service.SysMenuService;
+import com.live.zhf.exception.exception.SysException;
 import com.live.zhf.utils.Result;
 import io.swagger.annotations.*;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -87,7 +88,7 @@ public class SysMenuController implements BaseController<SysMenu> {
     public Result<Boolean> insert(
             @ApiParam(name = "menu",value = "菜单",required = true)
             @RequestBody SysMenu menu
-           ) {
+           ) throws SysException {
         return sysMenuService.insert(menu);
     }
 

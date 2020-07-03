@@ -1,7 +1,10 @@
 package com.live.zhf.common.service;
 
+import com.github.pagehelper.PageInfo;
 import com.live.zhf.base.BaseService;
 import com.live.zhf.common.entity.SysRole;
+import com.live.zhf.utils.Result;
+
 import java.util.List;
 
 /**
@@ -11,5 +14,5 @@ import java.util.List;
  * @since 2020-05-18 23:05:26
  */
 public interface SysRoleService extends BaseService<SysRole> {
-
+    Result<PageInfo> queryPage(Integer currentPage, Integer pageSize, String order, Integer sortType);
 }

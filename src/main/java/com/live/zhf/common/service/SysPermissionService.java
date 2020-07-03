@@ -14,5 +14,5 @@ import java.util.List;
  * @since 2020-05-18 23:06:28
  */
 public interface SysPermissionService extends BaseService<SysPermission> {
-
+    Result<PageInfo> queryPage(Integer currentPage, Integer pageSize,String order,Integer sortType);
 }

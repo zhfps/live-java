@@ -62,13 +62,96 @@
         select
           sys_user.id, sys_user.username, sys_role.name as roleName, sys_user.password, sys_user.nickname, sys_user.icon, sys_user.phone, sys_user.telephone, sys_user.email, sys_user.birthday, sys_user.sex, sys_user.status, sys_user.createTime, sys_user.updateTime
         from sys_user left join sys_role_user on sys_user.id = sys_role_user.userId left join sys_role on sys_role_user.userId = sys_role.id
+        <trim prefix="where" suffixOverrides="and">
+            <if test="userName != null and userName != ''">
+                sys_user.username like concat('%',#{userName},'%') and
+            </if>
+            <if test="status!= null and status != '' and status != '全部'">
+                sys_user.status = #{status}
+            </if>
+         </trim>
+
     </select>
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into yunxi.sys_user(username, password, nickname, icon, phone, telephone, email, birthday, sex, status, createTime, updateTime)
-        values (#{username}, #{password}, #{nickname}, #{icon}, #{phone}, #{telephone}, #{email}, #{birthday}, #{sex}, #{status}, #{createTime}, #{updateTime})
+        insert into yunxi.sys_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="nickname != null">
+                nickname,
+            </if>
+            <if test="icon != null">
+                icon,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="telephone != null">
+                telephone,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="birthday != null">
+                birthday,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="status != null">
+                status,
+            </if>
+            <if test="createTime != null">
+                  createTime,
+            </if>
+             <if test="updateTime != null">
+                 updateTime
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="nickname != null">
+                #{nickname},
+            </if>
+            <if test="icon != null">
+                #{icon},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="telephone != null">
+                #{telephone},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+            <if test="birthday != null">
+                #{birthday},
+            </if>
+            <if test="sex != null">
+                #{sex},
+            </if>
+            <if test="status != null">
+                #{status},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+            <if test="updateTime != null">
+                #{updateTime}
+            </if>
+        </trim>
     </insert>
-
     <!--通过主键修改数据-->
     <update id="update">
         update yunxi.sys_user

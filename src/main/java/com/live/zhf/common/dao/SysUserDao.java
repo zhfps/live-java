@@ -23,6 +23,8 @@ public interface SysUserDao extends BaseDao<SysUser> {
      */
     List<SysPermission> getUserPermission(Integer userId);
 
+    List<SysUser> queryPage(String userName,String status);
+
     /**
      * 根据名称查询用户
      * @param userName

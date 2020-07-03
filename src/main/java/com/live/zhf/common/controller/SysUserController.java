@@ -51,15 +51,14 @@ public class SysUserController implements BaseController<SysUser> {
 
     @ApiOperation(value = "分页查询")
     @GetMapping("queryPage")
-    @Override
-    public Result<PageInfo> queryPage(Integer currentPage, Integer pageSize, String order, Integer sortType) {
-        return sysUserService.queryPage(currentPage,pageSize,order,sortType);
+    public Result<PageInfo> queryPage(String userName,String status, Integer currentPage, Integer pageSize, String order, Integer sortType) {
+        return sysUserService.queryPage(userName,status,currentPage,pageSize,order,sortType);
     }
 
     @ApiOperation(value = "创建用户")
     @PostMapping("insert")
     @Override
-    public Result<Boolean> insert(SysUser sysUser) {
+    public Result<Boolean> insert(@RequestBody SysUser sysUser) throws SysException {
         return sysUserService.insert(sysUser);
     }
 

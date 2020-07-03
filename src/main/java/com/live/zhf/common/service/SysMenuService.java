@@ -1,5 +1,6 @@
 package com.live.zhf.common.service;
 
+import com.github.pagehelper.PageInfo;
 import com.live.zhf.base.BaseService;
 import com.live.zhf.common.entity.Menu;
 import com.live.zhf.common.entity.Select;
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public interface SysMenuService extends BaseService<SysMenu> {
 
-
+    Result<PageInfo> queryPage(Integer currentPage, Integer pageSize, String order, Integer sortType);
     /**
      * 查询全部
      * @return

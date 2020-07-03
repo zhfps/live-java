@@ -12,6 +12,7 @@ public enum ResultCode {
     PERMISSION_NO_ACCESS(70001, "无访问权限"),
     PERMISSION_TOKEN_ERROE(70002, "Token有误"),
     NOT_USER(401, "用户不存在"),
+    ERROR(400, "数据异常"),
     PASSWORD_ERROR(401, "密码错误"),
     CODE_ERROR(401, "验证码错误"),
     REQUEST_ERROR(401, "请求方式错误"),

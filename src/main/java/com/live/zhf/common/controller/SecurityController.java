@@ -84,7 +84,7 @@ public class SecurityController {
     }
 
     @ApiOperation(value ="获取当前用户信息" )
-    @GetMapping(value = "/info")
+    @GetMapping(value = "/api/info")
     @ResponseBody
     public Result<Authentication> Info(){
 

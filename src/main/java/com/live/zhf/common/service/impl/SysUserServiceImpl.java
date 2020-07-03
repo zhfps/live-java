@@ -9,6 +9,7 @@ import com.live.zhf.common.entity.SysUser;
 import com.live.zhf.common.dao.SysUserDao;
 import com.live.zhf.common.service.SysUserService;
 import com.live.zhf.exception.exception.NotFoundUserException;
+import com.live.zhf.exception.exception.SysException;
 import com.live.zhf.utils.JwtTokenUtil;
 import com.live.zhf.utils.Result;
 import com.live.zhf.utils.ResultBuilder;
@@ -25,6 +26,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -67,7 +69,7 @@ public class SysUserServiceImpl implements SysUserService, UserDetailsService {
      * @return 对象列表
      */
     @Override
-    public Result<PageInfo> queryPage(Integer currentPage, Integer pageSize, String order, Integer sortType){
+    public Result<PageInfo> queryPage(String userName,String status, Integer currentPage, Integer pageSize, String order, Integer sortType){
         String orderBy = order;
         if(sortType == 1){
             orderBy+=" desc";
@@ -75,7 +77,7 @@ public class SysUserServiceImpl implements SysUserService, UserDetailsService {
             orderBy+=" asc";
         }
         PageHelper.startPage(currentPage, pageSize,orderBy);
-        List<SysUser> users = this.sysUserDao.queryPage();
+        List<SysUser> users = this.sysUserDao.queryPage(userName,status);
         PageInfo pageInfo = new PageInfo(users);
         Result<PageInfo> result = this.resultBuilder.success(pageInfo, ResultCode.SUCCESS);
         return result;
@@ -88,8 +90,16 @@ public class SysUserServiceImpl implements SysUserService, UserDetailsService {
      * @return 实例对象
      */
     @Override
-    public Result<Boolean> insert(SysUser sysUser) {
+    public Result<Boolean> insert(SysUser sysUser) throws SysException {
         Result<Boolean> result;
+        SysUser user= this.sysUserDao.getUserByName(sysUser.getUsername());
+        if(user !=null){
+            throw new SysException("用户名已存在");
+        }
+        Date createTime = new Date();
+//        String password = BCrypt.hashpw(sysUser.getPassword(),BCrypt.gensalt());
+//        sysUser.setPassword(password);
+        sysUser.setCreateTime(createTime);
         Integer cell =  this.sysUserDao.insert(sysUser);
         if(cell > 0){
             result = this.resultBuilder.success(true,ResultCode.SUCCESS);
