@@ -65,7 +65,7 @@ public class SysUserController implements BaseController<SysUser> {
     @ApiOperation(value = "更新用户")
     @PostMapping("update")
     @Override
-    public Result<Boolean> update(SysUser sysUser) {
+    public Result<Boolean> update(@RequestBody SysUser sysUser) {
         return sysUserService.update(sysUser);
     }
 

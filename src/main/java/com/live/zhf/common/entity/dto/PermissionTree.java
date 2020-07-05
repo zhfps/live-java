@@ -1,32 +1,33 @@
-package com.live.zhf.common.entity;
+package com.live.zhf.common.entity.dto;
+
+import com.live.zhf.common.entity.SysPermission;
 
 import java.io.Serializable;
+import java.util.List;
 
-/**
- * (SysPermission)实体类
- *
- * @author makejava
- * @since 2020-05-18 23:06:28
- */
-public class SysPermission implements Serializable {
-    private static final long serialVersionUID = 363788374207537821L;
-    
+public class PermissionTree implements Serializable {
+    private static final long serialVersionUID = 363788274207537821L;
+
     private Integer id;
-    
+
     private Integer parentId;
-    
+
     private String name;
-    
+
     private String css;
-    
+
     private String href;
-    
-    private Integer type;
-    
+
+    private Object type;
+
     private String permission;
-    
+
     private Integer sort;
 
+    private List<PermissionTree> children;
+
+    public PermissionTree() {
+    }
 
     public Integer getId() {
         return id;
@@ -68,11 +69,11 @@ public class SysPermission implements Serializable {
         this.href = href;
     }
 
-    public Integer getType() {
+    public Object getType() {
         return type;
     }
 
-    public void setType(Integer type) {
+    public void setType(Object type) {
         this.type = type;
     }
 
@@ -92,4 +93,11 @@ public class SysPermission implements Serializable {
         this.sort = sort;
     }
 
+    public List<PermissionTree> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<PermissionTree> children) {
+        this.children = children;
+    }
 }

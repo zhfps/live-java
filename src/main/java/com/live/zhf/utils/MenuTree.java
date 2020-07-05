@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 public class MenuTree {
     private List<SysMenu> menuList = new ArrayList<SysMenu>();
-    private List<Menu> tree = new ArrayList<Menu>();
     public MenuTree(List<SysMenu> menuList) {
         this.menuList=menuList;
     }
@@ -30,12 +29,6 @@ public class MenuTree {
             if(menuNode.getParentId() == pNode.getId()) {
                 Menu menu = new Menu();
                 BeanUtils.copyProperties(menuNode,menu);
-//                if(menuNode.getDirectory().contains("目录")){
-//                    menu.setHasChildren(true);
-//                }else{
-//                    menu.setHasChildren(false);
-//                }
-
                 Meta meta = new Meta();
                 BeanUtils.copyProperties(menuNode,meta);
                 menu.setMeta(meta);
@@ -53,7 +46,6 @@ public class MenuTree {
             if(menuNode.getParentId() < 1) {
                 Menu menu = new Menu();
                 BeanUtils.copyProperties(menuNode,menu);
-//                menu.setHasChildren(true);
                 Meta meta = new Meta();
                 BeanUtils.copyProperties(menuNode,meta);
                 menu.setMeta(meta);

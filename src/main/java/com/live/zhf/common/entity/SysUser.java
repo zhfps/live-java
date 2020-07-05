@@ -2,6 +2,7 @@ package com.live.zhf.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -24,6 +25,7 @@ public class SysUser implements Serializable {
     private String username;
 
     @NotNull
+    @JsonIgnore
     private String password;
     
     private String nickname;
@@ -75,6 +77,7 @@ public class SysUser implements Serializable {
         return password;
     }
 
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }

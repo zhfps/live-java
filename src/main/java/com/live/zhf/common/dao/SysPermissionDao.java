@@ -1,7 +1,9 @@
 package com.live.zhf.common.dao;
 
 import com.live.zhf.base.BaseDao;
+import com.live.zhf.common.entity.SysMenu;
 import com.live.zhf.common.entity.SysPermission;
+import com.live.zhf.common.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
@@ -14,4 +16,7 @@ import java.util.List;
  */
 @Mapper
 public interface SysPermissionDao extends BaseDao<SysPermission> {
+    List<SysPermission> getPermissionByName(@Param("name") String name);
+    List<SysPermission> getPermissionByParentId(@Param("parentId") Integer parentId);
+    List<SysPermission> getSelect();
 }

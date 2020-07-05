@@ -2,16 +2,23 @@ package com.live.zhf.common.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.live.zhf.common.entity.Menu;
+import com.live.zhf.common.entity.Select;
 import com.live.zhf.common.entity.SysMenu;
 import com.live.zhf.common.entity.SysPermission;
 import com.live.zhf.common.dao.SysPermissionDao;
+import com.live.zhf.common.entity.dto.BuildPermissionSelectTree;
+import com.live.zhf.common.entity.dto.BuildPermissionTree;
+import com.live.zhf.common.entity.dto.PermissionTree;
 import com.live.zhf.common.service.SysPermissionService;
-import com.live.zhf.utils.Result;
-import com.live.zhf.utils.ResultBuilder;
-import com.live.zhf.utils.ResultCode;
+import com.live.zhf.utils.*;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -48,8 +55,9 @@ public class SysPermissionServiceImpl implements SysPermissionService {
      * @return 对象列表
      */
     @Override
-    public Result<PageInfo> queryPage(Integer currentPage, Integer pageSize,String order,Integer sortType){
+    public Result<PageInfo> queryPage(Integer currentPage, Integer pageSize, String order, Integer sortType){
         String orderBy = order;
+
         if(sortType == 1){
             orderBy+=" desc";
         }else {
@@ -62,6 +70,48 @@ public class SysPermissionServiceImpl implements SysPermissionService {
         return result;
     }
 
+    @Override
+    public Result<List<PermissionTree>> getTree(String name) {
+        List<SysPermission> permissions;
+        List<PermissionTree> list;
+        permissions = this.sysPermissionDao.queryPage();
+
+        if(StringUtils.isEmpty(name)){
+            list= getTrees(permissions,0);
+            return this.resultBuilder.success(list, ResultCode.SUCCESS);
+        }else {
+            List<SysPermission> items = this.sysPermissionDao.getPermissionByName(name);
+            if(!items.isEmpty()){
+                Integer parentId = items.get(0).getId();
+                PermissionTree tree = new PermissionTree();
+                BeanUtils.copyProperties(items.get(0),tree);
+                tree.setChildren(getTrees(permissions,parentId));
+                list = new ArrayList<>();
+                list.add(tree);
+                return this.resultBuilder.success(list, ResultCode.SUCCESS);
+            }else {
+                return null;
+            }
+        }
+
+    }
+
+    @Override
+    public Result<List<Select<Integer, String>>> getSelect() {
+        List<SysPermission> permissions = this.sysPermissionDao.getSelect();
+        List<Select<Integer,String>> tree =  getSelect(permissions);
+        Result<List<Select<Integer,String>>> result =this.resultBuilder.success(tree, ResultCode.SUCCESS);
+        return result;
+    }
+    public static List<Select<Integer,String>> getSelect(List<SysPermission> list) {
+        List<Select<Integer,String>> tree=new BuildPermissionSelectTree(list).buildTree();
+        return tree;
+    }
+    public static List<PermissionTree> getTrees(List<SysPermission> list,Integer parentId) {
+        BuildPermissionTree build =new BuildPermissionTree(list);
+        List<PermissionTree> tree=build.buildTree(parentId);
+        return tree;
+    }
     /**
      * 新增数据
      *
