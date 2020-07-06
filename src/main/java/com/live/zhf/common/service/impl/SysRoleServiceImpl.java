@@ -48,7 +48,7 @@ public class SysRoleServiceImpl implements SysRoleService {
      * @return 对象列表
      */
     @Override
-    public Result<PageInfo> queryPage(Integer currentPage, Integer pageSize,String order,Integer sortType){
+    public Result<PageInfo> queryPage(String description, Integer currentPage, Integer pageSize,String order,Integer sortType){
         String orderBy = order;
         if(sortType == 1){
             orderBy+=" desc";
@@ -56,7 +56,7 @@ public class SysRoleServiceImpl implements SysRoleService {
             orderBy+=" asc";
         }
         PageHelper.startPage(currentPage, pageSize,orderBy);
-        List<SysRole> roles = this.sysRoleDao.queryPage();
+        List<SysRole> roles = this.sysRoleDao.queryPage(description);
         PageInfo pageInfo = new PageInfo(roles);
         Result<PageInfo> result = this.resultBuilder.success(pageInfo, ResultCode.SUCCESS);
         return result;

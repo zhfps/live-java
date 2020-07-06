@@ -23,6 +23,11 @@
         select
           id, name, description, createTime, updateTime
         from yunxi.sys_role
+        <trim prefix="where" suffixOverrides="and">
+            <if test="description != null and description != ''">
+                description like concat('%',#{description},'%')
+            </if>
+        </trim>
     </select>
 
     <!--新增所有列-->

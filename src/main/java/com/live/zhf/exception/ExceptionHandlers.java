@@ -91,7 +91,7 @@ public class ExceptionHandlers {
     public Result<String> handlerException(Exception e){
         System.out.println(e.getMessage());
         log.error(e.getMessage());
-        Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.PERMISSION_TOKEN_ERROE);
+        Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.ERROR);
         return result;
     }
 

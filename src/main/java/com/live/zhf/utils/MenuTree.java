@@ -25,6 +25,7 @@ public class MenuTree {
     //递归，建立子树形结构
     private Menu buildChildrenTree(Menu pNode){
         List<Menu> childrenMenus =new  ArrayList<Menu>();
+        Integer index = 0 ;
         for(SysMenu menuNode : menuList) {
             if(menuNode.getParentId() == pNode.getId()) {
                 Menu menu = new Menu();
@@ -33,7 +34,9 @@ public class MenuTree {
                 BeanUtils.copyProperties(menuNode,meta);
                 menu.setMeta(meta);
                 childrenMenus.add(buildChildrenTree(menu));
+                menuList.remove(index);
             }
+            index++;
         }
         pNode.setChildren(childrenMenus);
         return pNode;
@@ -42,6 +45,7 @@ public class MenuTree {
     //获取根节点
     private List<Menu> getRootNode() {
         List<Menu> rootMenuLists =new  ArrayList<Menu>();
+        Integer index = 0;
         for(SysMenu menuNode : menuList) {
             if(menuNode.getParentId() < 1) {
                 Menu menu = new Menu();
@@ -50,7 +54,9 @@ public class MenuTree {
                 BeanUtils.copyProperties(menuNode,meta);
                 menu.setMeta(meta);
                 rootMenuLists.add(menu);
+                menuList.remove(index);
             }
+            index++;
         }
         return rootMenuLists;
     }

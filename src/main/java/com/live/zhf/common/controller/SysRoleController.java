@@ -37,8 +37,8 @@ public class SysRoleController implements BaseController<SysRole> {
     }
     @ApiOperation(value = "分页获取数据")
     @GetMapping("queryPage")
-    public Result<PageInfo> queryPage(Integer currentPage, Integer pageSize,String order, Integer sortType) {
-        return sysRoleService.queryPage(currentPage,pageSize,order,sortType);
+    public Result<PageInfo> queryPage(String description, Integer currentPage, Integer pageSize,String order, Integer sortType) {
+        return sysRoleService.queryPage(description,currentPage,pageSize,order,sortType);
     }
     @ApiOperation(value = "新增")
     @PostMapping("insert")
