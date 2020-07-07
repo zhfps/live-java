@@ -1,5 +1,6 @@
 package com.live.zhf.common.entity;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.io.Serializable;
 
@@ -13,9 +14,11 @@ public class SysRole implements Serializable {
     private static final long serialVersionUID = -89494829214238872L;
     
     private Integer id;
-    
+
+    @NotNull
     private String name;
-    
+
+    @NotNull
     private String description;
     
     private Date createTime;

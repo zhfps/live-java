@@ -12,6 +12,7 @@ import com.live.zhf.utils.ResultCode;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -71,6 +72,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public Result<Boolean> insert(SysRole sysRole) {
         Result<Boolean> result;
+        sysRole.setCreateTime(new Date());
         Integer cell =  this.sysRoleDao.insert(sysRole);
         if(cell > 0){
             result = this.resultBuilder.success(true,ResultCode.SUCCESS);
@@ -90,6 +92,7 @@ public class SysRoleServiceImpl implements SysRoleService {
     @Override
     public Result<Boolean> update(SysRole sysRole) {
         Result<Boolean> result;
+        sysRole.setUpdateTime(new Date());
         Integer cell = this.sysRoleDao.update(sysRole);
         if(cell > 0){
             result = this.resultBuilder.success(true,ResultCode.SUCCESS);

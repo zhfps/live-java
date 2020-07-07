@@ -33,24 +33,18 @@
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
         insert into yunxi.sys_role(name, description, createTime, updateTime)
-        values (#{name}, #{description}, #{createtime}, #{updatetime})
+        values (#{name}, #{description}, #{createTime}, #{updateTime})
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
         update yunxi.sys_role
         <set>
-            <if test="name != null and name != ''">
-                name = #{name},
-            </if>
             <if test="description != null and description != ''">
                 description = #{description},
             </if>
-            <if test="createtime != null">
-                createTime = #{createtime},
-            </if>
-            <if test="updatetime != null">
-                updateTime = #{updatetime},
+            <if test="updateTime != null">
+                updateTime = #{updateTime},
             </if>
         </set>
         where id = #{id}
