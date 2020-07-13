@@ -18,5 +18,5 @@ import java.util.List;
 public interface SysPermissionDao extends BaseDao<SysPermission> {
     List<SysPermission> getPermissionByName(@Param("name") String name);
     List<SysPermission> getPermissionByParentId(@Param("parentId") Integer parentId);
-    List<SysPermission> getSelect();
+    List<SysPermission> getSelect(@Param("type")Integer type);
 }

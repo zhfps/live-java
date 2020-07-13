@@ -97,8 +97,8 @@ public class SysPermissionServiceImpl implements SysPermissionService {
     }
 
     @Override
-    public Result<List<Select<Integer, String>>> getSelect() {
-        List<SysPermission> permissions = this.sysPermissionDao.getSelect();
+    public Result<List<Select<Integer, String>>> getSelect(Integer type) {
+        List<SysPermission> permissions = this.sysPermissionDao.getSelect(type);
         List<Select<Integer,String>> tree =  getSelect(permissions);
         Result<List<Select<Integer,String>>> result =this.resultBuilder.success(tree, ResultCode.SUCCESS);
         return result;

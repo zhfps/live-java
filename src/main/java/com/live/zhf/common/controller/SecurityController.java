@@ -92,5 +92,13 @@ public class SecurityController {
       return ResultBuilder.success(authentication, ResultCode.SUCCESS);
     }
 
-
+    @ApiOperation(value ="退出登录" )
+    @GetMapping(value = "/api/logout")
+    @ResponseBody
+    public Result<String> logOut(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        redisTemplate.delete(userName);
+        return ResultBuilder.success(userName, ResultCode.SUCCESS);
+    }
 }

@@ -52,9 +52,10 @@ public class SysPermissionController implements BaseController<SysPermission> {
 
     @ApiOperation(value = "权限下拉框")
     @GetMapping("getSelect")
-    public Result<List<Select<Integer, String>>> getSelect() {
-        return this.sysPermissionService.getSelect();
+    public Result<List<Select<Integer, String>>> getSelect(Integer type) {
+        return this.sysPermissionService.getSelect(type);
     }
+
     @ApiOperation(value = "新增")
     @PostMapping("insert")
     @Override

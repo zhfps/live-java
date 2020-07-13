@@ -20,6 +20,6 @@ public interface SysPermissionService extends BaseService<SysPermission> {
 
     Result<List<PermissionTree>> getTree(String name);
 
-    Result<List<Select<Integer,String>>> getSelect();
+    Result<List<Select<Integer,String>>> getSelect(Integer type);
 
 }

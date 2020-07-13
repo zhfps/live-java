@@ -28,7 +28,7 @@ public class FileController {
      * 实现文件上传
      * */
     @ApiOperation(value ="文件上传" )
-    @RequestMapping(value = "/fileUpload/{directory}",method= RequestMethod.POST)
+    @RequestMapping(value = "/api/fileUpload/{directory}",method= RequestMethod.POST)
     @ResponseBody
     public Result<String>  fileUpload(@PathVariable("directory")String directory,@RequestParam("fileName") MultipartFile file) throws IOException {
         if(file.isEmpty()){

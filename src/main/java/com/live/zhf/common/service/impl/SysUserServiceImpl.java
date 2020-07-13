@@ -97,8 +97,8 @@ public class SysUserServiceImpl implements SysUserService, UserDetailsService {
             throw new SysException("用户名已存在");
         }
         Date createTime = new Date();
-//        String password = BCrypt.hashpw(sysUser.getPassword(),BCrypt.gensalt());
-//        sysUser.setPassword(password);
+        String password = BCrypt.hashpw(sysUser.getPassword(),BCrypt.gensalt());
+        sysUser.setPassword(password);
         sysUser.setCreateTime(createTime);
         Integer cell =  this.sysUserDao.insert(sysUser);
         if(cell > 0){
