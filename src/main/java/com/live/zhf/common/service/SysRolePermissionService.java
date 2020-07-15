@@ -1,6 +1,7 @@
 package com.live.zhf.common.service;
 
 import com.live.zhf.common.entity.SysRolePermission;
+import com.live.zhf.utils.Result;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;
@@ -16,10 +17,10 @@ public interface SysRolePermissionService {
     /**
      * 通过ID查询单条数据
      *
-     * @param roleid 主键
+     * @param roleId 主键
      * @return 实例对象
      */
-    List<SysRolePermission> queryById(Integer roleId);
+    Result<List<SysRolePermission>> queryById(Integer roleId);
 
 
     /**
@@ -28,9 +29,9 @@ public interface SysRolePermissionService {
      * @param sysRolePermission 实例对象
      * @return 实例对象
      */
-    boolean insert(SysRolePermission sysRolePermission);
+    Result<Boolean> insert(SysRolePermission sysRolePermission);
 
 
-    boolean deleteById(Integer roleId);
+    Result<Boolean> deleteById(Integer roleId);
 
 }

@@ -1,6 +1,7 @@
 package com.live.zhf.common.dao;
 
 import com.live.zhf.common.entity.SysRolePermission;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import java.util.List;
  * @author makejava
  * @since 2020-07-13 23:43:16
  */
+@Mapper
 public interface SysRolePermissionDao {
 
     /**

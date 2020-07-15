@@ -3,6 +3,9 @@ package com.live.zhf.common.service.impl;
 import com.live.zhf.common.entity.SysRolePermission;
 import com.live.zhf.common.dao.SysRolePermissionDao;
 import com.live.zhf.common.service.SysRolePermissionService;
+import com.live.zhf.utils.Result;
+import com.live.zhf.utils.ResultBuilder;
+import com.live.zhf.utils.ResultCode;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,6 +22,8 @@ public class SysRolePermissionServiceImpl implements SysRolePermissionService {
     @Resource
     private SysRolePermissionDao sysRolePermissionDao;
 
+    @Resource
+    private ResultBuilder resultBuilder;
     /**
      * 通过ID查询单条数据
      *
@@ -26,8 +31,9 @@ public class SysRolePermissionServiceImpl implements SysRolePermissionService {
      * @return 实例对象
      */
     @Override
-    public List<SysRolePermission> queryById(Integer roleId) {
-        return this.sysRolePermissionDao.queryById(roleId);
+    public Result<List<SysRolePermission>> queryById(Integer roleId) {
+
+        return resultBuilder.success(this.sysRolePermissionDao.queryById(roleId), ResultCode.SUCCESS);
     }
 
 
@@ -38,9 +44,9 @@ public class SysRolePermissionServiceImpl implements SysRolePermissionService {
      * @return 实例对象
      */
     @Override
-    public boolean insert(SysRolePermission sysRolePermission) {
-        this.sysRolePermissionDao.insert(sysRolePermission);
-        return this.sysRolePermissionDao.insert(sysRolePermission)>0;
+    public Result<Boolean> insert(SysRolePermission sysRolePermission) {
+        boolean result =  this.sysRolePermissionDao.insert(sysRolePermission)>0;
+        return resultBuilder.success(result,ResultCode.SUCCESS);
     }
 
 
@@ -51,7 +57,8 @@ public class SysRolePermissionServiceImpl implements SysRolePermissionService {
      * @return 是否成功
      */
     @Override
-    public boolean deleteById(Integer roleId) {
-        return this.sysRolePermissionDao.deleteById(roleId) > 0;
+    public Result<Boolean> deleteById(Integer roleId) {
+        boolean result =  this.sysRolePermissionDao.deleteById(roleId) > 0;
+        return resultBuilder.success(result,ResultCode.SUCCESS);
     }
 }
