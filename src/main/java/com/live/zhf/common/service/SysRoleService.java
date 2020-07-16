@@ -15,4 +15,5 @@ import java.util.List;
  */
 public interface SysRoleService extends BaseService<SysRole> {
     Result<PageInfo> queryPage(String description, Integer currentPage, Integer pageSize, String order, Integer sortType);
+    Result<List<SysRole>> queryAll();
 }

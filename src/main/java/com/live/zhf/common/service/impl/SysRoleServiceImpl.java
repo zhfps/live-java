@@ -63,6 +63,11 @@ public class SysRoleServiceImpl implements SysRoleService {
         return result;
     }
 
+    @Override
+    public Result<List<SysRole>> queryAll() {
+        return this.resultBuilder.success(this.sysRoleDao.queryAll(), ResultCode.SUCCESS);
+    }
+
     /**
      * 新增数据
      *

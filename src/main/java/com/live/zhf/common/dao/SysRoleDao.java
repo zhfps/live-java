@@ -15,4 +15,5 @@ import java.util.List;
 @Mapper
 public interface SysRoleDao extends BaseDao<SysRole> {
     List<SysRole> queryPage(@Param("description") String description);
+    List<SysRole> queryAll();
 }

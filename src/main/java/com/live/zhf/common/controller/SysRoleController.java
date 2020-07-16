@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * (SysRole)表控制层
@@ -35,6 +36,15 @@ public class SysRoleController implements BaseController<SysRole> {
     public Result<SysRole> get(Integer id) {
         return sysRoleService.get(id);
     }
+
+
+    @ApiOperation(value = "获取全部角色")
+    @GetMapping("queryAll")
+    public Result<List<SysRole>> queryAll() {
+        return sysRoleService.queryAll();
+    }
+
+
     @ApiOperation(value = "分页获取数据")
     @GetMapping("queryPage")
     public Result<PageInfo> queryPage(String description, Integer currentPage, Integer pageSize,String order, Integer sortType) {

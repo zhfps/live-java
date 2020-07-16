@@ -29,6 +29,11 @@
             </if>
         </trim>
     </select>
+    <select id="queryAll" resultMap="SysRoleMap">
+        select
+          id, name, description, createTime, updateTime
+        from yunxi.sys_role
+    </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
