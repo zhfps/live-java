@@ -7,6 +7,7 @@ import com.live.zhf.utils.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Api(value = "文件模块",tags = "文件模块")
-@Controller
+@Controller(value = "/api")
 public class FileController {
     @Value("${it.dog.uploadFilePath}")
     private String uploadPath;
@@ -28,7 +29,8 @@ public class FileController {
      * 实现文件上传
      * */
     @ApiOperation(value ="文件上传" )
-    @RequestMapping(value = "/api/fileUpload/{directory}",method= RequestMethod.POST)
+    @PreAuthorize("hasAuthority('sys:file:upload')")
+    @RequestMapping(value = "/fileUpload/{directory}",method= RequestMethod.POST)
     @ResponseBody
     public Result<String>  fileUpload(@PathVariable("directory")String directory,@RequestParam("fileName") MultipartFile file) throws IOException {
         if(file.isEmpty()){
@@ -50,6 +52,7 @@ public class FileController {
      * 实现多文件上传
      * */
     @ApiOperation(value ="多文件上传" )
+    @PreAuthorize("hasAuthority('sys:file:upload')")
     @RequestMapping(value="/filesUpload/{directory}",method= RequestMethod.POST)
     public Result<List<String>> filesUpload(@PathVariable("directory")String directory, HttpServletRequest request) throws IOException {
 
@@ -78,6 +81,7 @@ public class FileController {
         return ResultBuilder.success(paths, ResultCode.SUCCESS);
     }
     @ApiOperation(value ="文件下载" )
+    @PreAuthorize("hasAuthority('sys:file:download')")
     @GetMapping(value = "/download/{directory}")
     public void logDownload(@PathVariable String directory, String fileName, HttpServletResponse response) throws Exception {
         File file = new File(uploadPath + directory + "/" + fileName);

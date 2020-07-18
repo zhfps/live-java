@@ -12,6 +12,7 @@ import com.live.zhf.utils.ResultBuilder;
 import com.live.zhf.utils.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -44,18 +45,21 @@ public class SysUserController implements BaseController<SysUser> {
      * @return 单条数据
      */
     @ApiOperation(value = "获取一条用户记录")
+    @PreAuthorize("hasAuthority('sys:user:query')")
     @GetMapping("get")
     public Result<SysUser> get(Integer id) {
         return this.sysUserService.get(id);
     }
 
     @ApiOperation(value = "分页查询")
+    @PreAuthorize("hasAuthority('sys:user:query')")
     @GetMapping("queryPage")
     public Result<PageInfo> queryPage(String userName,String status, Integer currentPage, Integer pageSize, String order, Integer sortType) {
         return sysUserService.queryPage(userName,status,currentPage,pageSize,order,sortType);
     }
 
     @ApiOperation(value = "创建用户")
+    @PreAuthorize("hasAuthority('sys:user:add')")
     @PostMapping("insert")
     @Override
     public Result<Boolean> insert(@RequestBody SysUser sysUser) throws SysException {
@@ -63,6 +67,7 @@ public class SysUserController implements BaseController<SysUser> {
     }
 
     @ApiOperation(value = "更新用户")
+    @PreAuthorize("hasAuthority('sys:user:update')")
     @PostMapping("update")
     @Override
     public Result<Boolean> update(@RequestBody SysUser sysUser) {
@@ -70,6 +75,7 @@ public class SysUserController implements BaseController<SysUser> {
     }
 
     @ApiOperation(value = "删除用户")
+    @PreAuthorize("hasAuthority('sys:user:del')")
     @DeleteMapping("delete")
     @Override
     public Result<Boolean> delete(Integer id) {
@@ -77,6 +83,7 @@ public class SysUserController implements BaseController<SysUser> {
     }
 
     @ApiOperation(value = "获取用户权限")
+    @PreAuthorize("hasAuthority('sys:user:query')")
     @GetMapping("getUserPermission")
     public Result<List<SysPermission>> getUserPermission(Integer userId){
         Result<List<SysPermission>> result = resultBuilder.success(this.sysUserService.getUserPermission(userId),ResultCode.SUCCESS);

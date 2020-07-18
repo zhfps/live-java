@@ -28,7 +28,7 @@ public class SysMenuController implements BaseController<SysMenu> {
     @Resource
     private SysMenuService sysMenuService;
 
-    @ApiOperation(value = "获取一条菜单")
+    @ApiOperation(value = "获取一条菜单数据")
     @PreAuthorize("hasAuthority('sys:menu:get')")
     @GetMapping("get")
     @Override
@@ -54,6 +54,7 @@ public class SysMenuController implements BaseController<SysMenu> {
     }
 
     @ApiOperation(value = "获取目树")
+    @PreAuthorize("hasAuthority('sys:menu:query')")
     @GetMapping("getSelect")
     @ResponseBody
     public Result<List<Select<Integer,String>>> getSelect( ){
@@ -83,6 +84,7 @@ public class SysMenuController implements BaseController<SysMenu> {
     }
     
     @ApiOperation(value = "新增菜单")
+    @PreAuthorize("hasAuthority('sys:menu:add')")
     @PostMapping(value = "insert")
     @ResponseBody
     public Result<Boolean> insert(
@@ -93,6 +95,7 @@ public class SysMenuController implements BaseController<SysMenu> {
     }
 
     @ApiOperation(value = "修改菜单")
+    @PreAuthorize("hasAuthority('sys:menu:update')")
     @PostMapping("updateMenu")
     @ResponseBody
     public Result<Boolean> update(
@@ -104,6 +107,7 @@ public class SysMenuController implements BaseController<SysMenu> {
 
 
     @ApiOperation(value = "删除")
+    @PreAuthorize("hasAuthority('sys:menu:del')")
     @DeleteMapping("delete")
     @ResponseBody
     public Result<Boolean> delete(

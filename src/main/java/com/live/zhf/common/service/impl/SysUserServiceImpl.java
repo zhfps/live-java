@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
 import com.live.zhf.common.entity.LoginUser;
 import com.live.zhf.common.entity.SysPermission;
+import com.live.zhf.common.entity.SysRole;
 import com.live.zhf.common.entity.SysUser;
 import com.live.zhf.common.dao.SysUserDao;
 import com.live.zhf.common.service.SysUserService;
@@ -15,10 +16,12 @@ import com.live.zhf.utils.Result;
 import com.live.zhf.utils.ResultBuilder;
 import com.live.zhf.utils.ResultCode;
 import lombok.extern.java.Log;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -137,11 +140,16 @@ public class SysUserServiceImpl implements SysUserService, UserDetailsService {
     @Override
     public Result<Boolean> delete(Integer id) {
         Result<Boolean> result;
+        SysUser user = this.sysUserDao.get(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(user.getUsername() == authentication.getName()){
+            result = this.resultBuilder.error(false,ResultCode.CREATE_ERROE);
+        }
         Integer cell = this.sysUserDao.delete(id);
         if(cell > 0){
             result = this.resultBuilder.success(true,ResultCode.SUCCESS);
         }else {
-            result = this.resultBuilder.error(true,ResultCode.CREATE_ERROE);
+            result = this.resultBuilder.error(false,ResultCode.CREATE_ERROE);
         }
         return result;
     }
@@ -180,8 +188,6 @@ public class SysUserServiceImpl implements SysUserService, UserDetailsService {
         }else {
             return gson.fromJson(json,LoginUser.class);
         }
-
-
 
     }
 }

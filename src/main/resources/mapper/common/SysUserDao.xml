@@ -36,17 +36,17 @@
     </select>
     <!--查询单个-->
     <select id="getUserByName" resultMap="SysUserMap">
-         select
+         select distinct
           sys_user.id, sys_user.username, sys_role.name as roleName, sys_user.password, sys_user.nickname, sys_user.icon, sys_user.phone, sys_user.telephone, sys_user.email, sys_user.birthday, sys_user.sex, sys_user.status, sys_user.createTime, sys_user.updateTime
          from sys_user left join sys_role_user on sys_user.id = sys_role_user.userId left join sys_role on sys_role_user.userId = sys_role.id having sys_user.username = #{userName}
     </select>
     <!--查询用户拥有的权限-->
     <select id="getUserPermission" resultMap="SysPermissionMap">
-         select id, parentId, name, css, href, type, permission, sort from sys_permission where id in (
+          select distinct  id, parentId, name, css, href, type, permission, sort from sys_permission where id in (
             select permissionId from sys_role_permission where roleId in (
-            select id from sys_role where id = (
+            select id from sys_role where id in (
              select sys_role_user.roleId from sys_role_user where userId = #{userId}
-            )))
+            ))) and sys_permission.permission is not null and length(sys_permission.permission)>1
     </select>
     <!--登录用户-->
     <select id="getLoginUserPermission" resultType="java.lang.String">

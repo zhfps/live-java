@@ -8,6 +8,7 @@ import com.live.zhf.utils.ResultBuilder;
 import com.live.zhf.utils.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -41,6 +42,7 @@ public class SysRoleUserController {
 
 
     @ApiOperation(value = "给用户分配角色")
+    @PreAuthorize("hasAuthority('sys:user:setrole')")
     @PostMapping("setUserRole")
     public Result<Boolean> setRolePermission(@RequestParam(value = "userId",required = true) Integer userId, @RequestBody List<Integer> roles) {
         this.sysRoleUserService.deleteById(userId);

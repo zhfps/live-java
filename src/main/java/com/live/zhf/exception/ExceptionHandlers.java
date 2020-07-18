@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.naming.AuthenticationException;
+import java.sql.SQLIntegrityConstraintViolationException;
 
 @ControllerAdvice
 @ResponseBody
@@ -181,6 +182,18 @@ public class ExceptionHandlers {
     public Result<String> handlerNotFindFile(NotFindFile e){
         log.error(e.getMessage());
         Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.NOT_FILE);
+        return result;
+    }
+    /***
+     * 数据库错误
+     * @param e
+     * @return
+     */
+    @ExceptionHandler(value = { SQLIntegrityConstraintViolationException.class })
+    @ResponseBody
+    public Result<String> handlerSQLIntegrityConstraintViolationException(SQLIntegrityConstraintViolationException e){
+        log.error(e.getMessage());
+        Result<String> result= ResultBuilder.error(e.getMessage(), ResultCode.SQL_DATA);
         return result;
     }
 }

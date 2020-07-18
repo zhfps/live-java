@@ -21,6 +21,7 @@ public enum ResultCode {
     AUTH_ERROE(403, "用户权限有误"),
     AUTH_NOT(403, "没有访问权限"),
     NOT_FILE(404, "文件资源不存在"),
+    SQL_DATA(401, "数据错误"),
     NOT_LOGIN(403, "请先登录");
 
     private Integer code;
