@@ -52,7 +52,7 @@
     <select id="getLoginUserPermission" resultType="java.lang.String">
          select permission from sys_permission where id in (
             select permissionId from sys_role_permission where roleId in (
-            select id from sys_role where id = (
+            select id from sys_role where id in (
              select sys_role_user.roleId from sys_role_user where userId = #{userId}
             )))
     </select>

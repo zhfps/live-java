@@ -27,14 +27,11 @@ public class SysMenu implements Serializable {
     private String title;
     
     private String icon;
-    
-    private String color;
 
     private String status;
 
+    @NotNull
     private String  directory;
-
-    private String  permission;
 
     private int sort;
 
@@ -86,13 +83,6 @@ public class SysMenu implements Serializable {
         this.icon = icon;
     }
 
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
 
     public String getDirectory() {
         return directory;
@@ -100,14 +90,6 @@ public class SysMenu implements Serializable {
 
     public void setDirectory(String directory) {
         this.directory = directory;
-    }
-
-    public String getPermission() {
-        return permission;
-    }
-
-    public void setPermission(String permission) {
-        this.permission = permission;
     }
 
     public String getStatus() {

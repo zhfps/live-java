@@ -21,13 +21,9 @@ public class Menu implements Serializable {
 
     private String  directory;
 
-    private String  permission;
-
     private String  status;
 
     private int sort;
-
-//    private Boolean hasChildren;
 
     private List<Menu> children;
 }
