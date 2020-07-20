@@ -8,6 +8,7 @@ import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -54,10 +55,13 @@ public class LoginUser implements UserDetails, Serializable {
      */
     private Set<String> permissions;
 
+
     /**
      * 用户信息
      */
     private SysUser user;
+
+    private List<Menu> menu;
 
     public String getToken()
     {
@@ -223,5 +227,13 @@ public class LoginUser implements UserDetails, Serializable {
     {
         return permissions.parallelStream().filter(p -> !StringUtils.isEmpty(p))
             .map(p -> new SimpleGrantedAuthority(p)).collect(Collectors.toSet());
+    }
+
+    public List<Menu> getMenu() {
+        return menu;
+    }
+
+    public void setMenu(List<Menu> menu) {
+        this.menu = menu;
     }
 }

@@ -8,6 +8,7 @@ import com.live.zhf.common.entity.SysPermission;
 import com.live.zhf.common.entity.SysRole;
 import com.live.zhf.common.entity.SysUser;
 import com.live.zhf.common.dao.SysUserDao;
+import com.live.zhf.common.service.SysUserMenuService;
 import com.live.zhf.common.service.SysUserService;
 import com.live.zhf.exception.exception.NotFoundUserException;
 import com.live.zhf.exception.exception.SysException;
@@ -43,6 +44,9 @@ import java.util.List;
 public class SysUserServiceImpl implements SysUserService, UserDetailsService {
     @Resource
     private SysUserDao sysUserDao;
+
+    @Resource
+    private SysUserMenuService sysUserMenuService;
 
     @Resource
     private ResultBuilder resultBuilder;
@@ -182,6 +186,7 @@ public class SysUserServiceImpl implements SysUserService, UserDetailsService {
         String json = redisTemplate.opsForValue().get(user.getUsername());
         if(StringUtils.isEmpty(json)){
             LoginUser loginUser = new LoginUser(user, this.sysUserDao.getLoginUserPermission(user.getId()));
+            loginUser.setMenu(this.sysUserMenuService.getUserMenu(user.getId()));
             String newJson = gson.toJson(loginUser);
             redisTemplate.opsForValue().set(loginUser.getUsername(),newJson);
             return loginUser;
