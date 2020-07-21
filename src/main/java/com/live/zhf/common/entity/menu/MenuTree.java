@@ -1,7 +1,4 @@
-package com.live.zhf.utils;
-import com.live.zhf.common.entity.Menu;
-import com.live.zhf.common.entity.Meta;
-import com.live.zhf.common.entity.SysMenu;
+package com.live.zhf.common.entity.menu;
 import org.springframework.beans.BeanUtils;
 
 import java.util.ArrayList;

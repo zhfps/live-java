@@ -1,6 +1,6 @@
 package com.live.zhf.common.entity.dto;
 
-import com.live.zhf.common.entity.Select;
+import com.live.zhf.common.entity.menu.Select;
 import com.live.zhf.common.entity.SysPermission;
 import java.util.ArrayList;
 import java.util.List;

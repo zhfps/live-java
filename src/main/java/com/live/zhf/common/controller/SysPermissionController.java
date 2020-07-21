@@ -2,16 +2,14 @@ package com.live.zhf.common.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.live.zhf.base.BaseController;
-import com.live.zhf.common.entity.Select;
+import com.live.zhf.common.entity.menu.Select;
 import com.live.zhf.common.entity.SysPermission;
 import com.live.zhf.common.entity.dto.PermissionTree;
 import com.live.zhf.common.service.SysPermissionService;
 import com.live.zhf.exception.exception.SysException;
 import com.live.zhf.utils.Result;
-import com.live.zhf.utils.ResultBuilder;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 

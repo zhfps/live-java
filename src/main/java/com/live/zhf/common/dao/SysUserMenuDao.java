@@ -1,9 +1,9 @@
 package com.live.zhf.common.dao;
 
-import com.live.zhf.common.entity.SysMenu;
+import com.live.zhf.common.entity.menu.SysMenu;
 import com.live.zhf.common.entity.SysUserMenu;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -23,6 +23,7 @@ public interface SysUserMenuDao {
      */
     List<SysMenu> queryById(Integer userId);
 
+    List<SysUserMenu> getUserMenuId(Integer userId);
     /**
      * 新增数据
      *

@@ -2,8 +2,8 @@ package com.live.zhf.common.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.live.zhf.common.entity.*;
 import com.live.zhf.common.dao.SysMenuDao;
+import com.live.zhf.common.entity.menu.*;
 import com.live.zhf.common.service.SysMenuService;
 import com.live.zhf.utils.*;
 import org.springframework.stereotype.Service;
@@ -66,8 +66,8 @@ public class SysMenuServiceImpl implements SysMenuService {
         return tree;
     }
     @Override
-    public Result<List<Select<Integer,String>>> getSelect(){
-        List<SysMenu> menus = this.sysMenuDao.getSelect();
+    public Result<List<Select<Integer,String>>> getSelect(String type){
+        List<SysMenu> menus = this.sysMenuDao.getSelect(type);
         List<Select<Integer,String>> tree =  getSelect(menus);
         Result<List<Select<Integer,String>>> result =this.resultBuilder.success(tree, ResultCode.SUCCESS);
         return result;

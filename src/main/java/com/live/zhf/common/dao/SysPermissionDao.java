@@ -1,9 +1,7 @@
 package com.live.zhf.common.dao;
 
 import com.live.zhf.base.BaseDao;
-import com.live.zhf.common.entity.SysMenu;
 import com.live.zhf.common.entity.SysPermission;
-import com.live.zhf.common.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;

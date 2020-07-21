@@ -1,11 +1,11 @@
 package com.live.zhf.common.service.impl;
 
-import com.live.zhf.common.entity.Menu;
-import com.live.zhf.common.entity.SysMenu;
+import com.live.zhf.common.entity.menu.Menu;
+import com.live.zhf.common.entity.menu.SysMenu;
 import com.live.zhf.common.entity.SysUserMenu;
 import com.live.zhf.common.dao.SysUserMenuDao;
 import com.live.zhf.common.service.SysUserMenuService;
-import com.live.zhf.utils.MenuTree;
+import com.live.zhf.common.entity.menu.MenuTree;
 import com.live.zhf.utils.Result;
 import com.live.zhf.utils.ResultBuilder;
 import com.live.zhf.utils.ResultCode;
@@ -41,6 +41,11 @@ public class SysUserMenuServiceImpl implements SysUserMenuService {
         List<SysMenu> menus = this.sysUserMenuDao.queryById(userId);
         List<Menu> tree =  getMenus(menus);
         return tree;
+    }
+
+    @Override
+    public Result<List<SysUserMenu>> getUserMenuId(Integer userId) {
+        return this.resultBuilder.success(this.sysUserMenuDao.getUserMenuId(userId), ResultCode.SUCCESS);
     }
 
     public static List<Menu> getMenus(List<SysMenu> sysMenus) {

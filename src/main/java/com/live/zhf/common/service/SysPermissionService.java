@@ -2,7 +2,7 @@ package com.live.zhf.common.service;
 
 import com.github.pagehelper.PageInfo;
 import com.live.zhf.base.BaseService;
-import com.live.zhf.common.entity.Select;
+import com.live.zhf.common.entity.menu.Select;
 import com.live.zhf.common.entity.SysPermission;
 import com.live.zhf.common.entity.dto.PermissionTree;
 import com.live.zhf.utils.Result;

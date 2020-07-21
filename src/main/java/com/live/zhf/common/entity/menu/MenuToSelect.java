@@ -1,8 +1,4 @@
-package com.live.zhf.utils;
-
-import com.live.zhf.common.entity.Select;
-import com.live.zhf.common.entity.SysMenu;
-
+package com.live.zhf.common.entity.menu;
 import java.util.ArrayList;
 import java.util.List;
 

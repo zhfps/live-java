@@ -1,7 +1,6 @@
 package com.live.zhf.common.controller;
 
-import com.live.zhf.common.entity.Menu;
-import com.live.zhf.common.entity.SysRoleUser;
+import com.live.zhf.common.entity.menu.Menu;
 import com.live.zhf.common.entity.SysUserMenu;
 import com.live.zhf.common.service.SysUserMenuService;
 import com.live.zhf.utils.Result;
@@ -9,7 +8,6 @@ import com.live.zhf.utils.ResultBuilder;
 import com.live.zhf.utils.ResultCode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -39,6 +37,16 @@ public class SysUserMenuController {
     @GetMapping("getUserMenu")
     public Result<List<Menu>> getUserMenu(Integer id) {
         return this.sysUserMenuService.queryById(id);
+    }
+
+    /**
+     * @param id 主键
+     * @return 单条数据
+     */
+    @ApiOperation(value = "根据userId获取用户菜单Id")
+    @GetMapping("getUserMenuId")
+    public Result<List<SysUserMenu>> getUserMenuId(Integer id) {
+        return this.sysUserMenuService.getUserMenuId(id);
     }
 
 

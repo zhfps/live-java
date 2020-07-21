@@ -2,9 +2,7 @@ package com.live.zhf.common.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.live.zhf.common.entity.Menu;
-import com.live.zhf.common.entity.Select;
-import com.live.zhf.common.entity.SysMenu;
+import com.live.zhf.common.entity.menu.Select;
 import com.live.zhf.common.entity.SysPermission;
 import com.live.zhf.common.dao.SysPermissionDao;
 import com.live.zhf.common.entity.dto.BuildPermissionSelectTree;
@@ -15,7 +13,6 @@ import com.live.zhf.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;

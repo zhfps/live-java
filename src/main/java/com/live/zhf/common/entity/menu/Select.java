@@ -1,4 +1,4 @@
-package com.live.zhf.common.entity;
+package com.live.zhf.common.entity.menu;
 
 import lombok.Data;
 

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.live.zhf.common.dao.SysMenuDao">
 
-    <resultMap type="com.live.zhf.common.entity.SysMenu" id="SysMenuMap">
+    <resultMap type="com.live.zhf.common.entity.menu.SysMenu" id="SysMenuMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="parentId" column="parentId" jdbcType="INTEGER"/>
         <result property="path" column="path" jdbcType="VARCHAR"/>
@@ -46,7 +46,11 @@
         select
           id, parentId, path, name, title, icon, directory, status, sort
         from yunxi.sys_menu
-        where directory = "目录"
+        <where>
+            <if test="type != null and type != '全部'">
+                directory = #{type}
+            </if>
+        </where>
     </select>
 
     <!--新增所有列-->

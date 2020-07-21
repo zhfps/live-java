@@ -60,7 +60,6 @@ public class SecurityController {
             @RequestParam(name = "password",required = true)String password,
             @RequestParam(name = "code",required = true)String code,HttpServletRequest request) throws CodeException {
 
-        System.out.println(request.getLocalAddr());
         if(StringUtils.isEmpty(code)) {
             throw new CodeException("验证码不能为空");
         }

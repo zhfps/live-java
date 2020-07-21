@@ -2,7 +2,9 @@ package com.live.zhf.common.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.live.zhf.base.BaseController;
-import com.live.zhf.common.entity.*;
+import com.live.zhf.common.entity.menu.Menu;
+import com.live.zhf.common.entity.menu.Select;
+import com.live.zhf.common.entity.menu.SysMenu;
 import com.live.zhf.common.service.SysMenuService;
 import com.live.zhf.exception.exception.SysException;
 import com.live.zhf.utils.Result;
@@ -57,8 +59,8 @@ public class SysMenuController implements BaseController<SysMenu> {
     @PreAuthorize("hasAuthority('sys:menu:query')")
     @GetMapping("getSelect")
     @ResponseBody
-    public Result<List<Select<Integer,String>>> getSelect( ){
-         return sysMenuService.getSelect();
+    public Result<List<Select<Integer,String>>> getSelect(@RequestParam(name = "type", defaultValue = "目录")String type){
+         return sysMenuService.getSelect(type);
     }
 
 

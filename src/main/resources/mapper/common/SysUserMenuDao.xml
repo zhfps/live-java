@@ -6,7 +6,7 @@
         <result property="menuId" column="menuId" jdbcType="INTEGER"/>
         <result property="userId" column="userId" jdbcType="INTEGER"/>
     </resultMap>
-    <resultMap type="com.live.zhf.common.entity.SysMenu" id="SysMenuMap">
+    <resultMap type="com.live.zhf.common.entity.menu.SysMenu" id="SysMenuMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="parentId" column="parentId" jdbcType="INTEGER"/>
         <result property="path" column="path" jdbcType="VARCHAR"/>
@@ -24,6 +24,14 @@
          from sys_menu where id in (
              select sys_user_menu.menuId from sys_user_menu where sys_user_menu.userId = #{userId}
             )
+    </select>
+    <!--查询单个-->
+    <select id="getUserMenuId" resultMap="SysUserMenuMap">
+        select
+            menuId, userId
+         from sys_user_menu
+         where
+         userId = #{userId}
     </select>
     <!--新增所有列-->
     <insert id="insert">

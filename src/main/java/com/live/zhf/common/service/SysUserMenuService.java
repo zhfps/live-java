@@ -1,6 +1,6 @@
 package com.live.zhf.common.service;
 
-import com.live.zhf.common.entity.Menu;
+import com.live.zhf.common.entity.menu.Menu;
 import com.live.zhf.common.entity.SysUserMenu;
 import com.live.zhf.utils.Result;
 
@@ -23,6 +23,8 @@ public interface SysUserMenuService {
     Result<List<Menu>> queryById(Integer userId);
 
     List<Menu> getUserMenu(Integer userId);
+
+    Result<List<SysUserMenu>> getUserMenuId(Integer userId);
 
     /**
      * 新增数据

@@ -1,9 +1,10 @@
 package com.live.zhf.common.dao;
 
 import com.live.zhf.base.BaseDao;
-import com.live.zhf.common.entity.SysMenu;
+import com.live.zhf.common.entity.menu.SysMenu;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -24,5 +25,5 @@ public interface SysMenuDao extends BaseDao<SysMenu> {
     /**
      * 前端菜单目录下拉框
      */
-    List<SysMenu> getSelect();
+    List<SysMenu> getSelect(@Param("type") String type);
 }

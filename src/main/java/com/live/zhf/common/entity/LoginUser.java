@@ -1,6 +1,7 @@
 package com.live.zhf.common.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.live.zhf.common.entity.menu.Menu;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
